@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={mPlus1Code.className}>
-      <body>{children}</body>
+      <body className="max-w-3xl mx-auto bg-black text-white">{children}</body>
     </html>
   );
 }
