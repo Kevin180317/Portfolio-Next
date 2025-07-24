@@ -40,7 +40,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={mPlus1Code.className}>
-      <body className="max-w-3xl mx-auto bg-black text-white">{children}</body>
+      <body className="max-w-3xl relative h-full w-full bg-slate-950 mx-auto bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px]">
+        {children}
+      </body>
     </html>
   );
 }

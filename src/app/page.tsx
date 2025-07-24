@@ -5,7 +5,7 @@ import Hero from "@/components/Hero";
 
 function page() {
   return (
-    <main>
+    <main className="relative z-10">
       <Nav />
       <Hero />
       <div className="fixed bottom-10 left-1/2 -translate-x-1/2">
