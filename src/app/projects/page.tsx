@@ -1,14 +1,10 @@
 import Nav from "@/components/Nav";
 import React from "react";
-import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
 
 function page() {
   return (
     <main className="relative z-10">
       <Nav />
-      <Hero />
-      <Projects />
     </main>
   );
 }
