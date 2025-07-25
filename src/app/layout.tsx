@@ -36,6 +36,14 @@ export const metadata: Metadata = {
     google:
       "google-site-verification=D5QHoNAwE6P7AHgT5baqDZG6unYxUn8bNTq6Qwehp4I",
   },
+  openGraph: {
+    title: "Kevin Okhuysen - Desarrollo Web y Apps Modernas",
+    description:
+      "Descubre el portafolio de Kevin Okhuysen, con proyectos innovadores en desarrollo web y apps para el sector médico, startups y más.",
+    url: "https://okhuysen.dev",
+    siteName: "Okhuysen Dev",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
