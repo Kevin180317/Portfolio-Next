@@ -1,86 +1,108 @@
 "use client";
-import Link from "next/link";
-import React from "react";
 
-function Projects() {
-  const projects = [
-    {
-      id: 1,
-      name: "macoti.com.mx",
-      description: "Landing Page",
-      technologies: [
-        { name: "Next.js", color: "text-green-400" },
-        { name: "TypeScript", color: "text-blue-400" },
-        { name: "Tailwind", color: "text-cyan-400" },
-        { name: "PostgreSQL", color: "text-indigo-400" },
-      ],
-    },
-    {
-      id: 2,
-      name: "Transtime.com",
-      description:
-        "Landing page for the safety, occupational health, environment and quality company",
-      technologies: [
-        { name: "Astro", color: "text-purple-400" },
-        { name: "Tailwind", color: "text-cyan-400" },
-      ],
-    },
-    {
-      id: 3,
-      name: "PrometheusTij.com",
-      description:
-        "Videogame inspired by Only Up, where you jump and overcome obstacles",
-      technologies: [
-        { name: "Unity", color: "text-gray-400" },
-        { name: "C#", color: "text-purple-400" },
-      ],
-    },
-    {
-      id: 4,
-      name: "Akerlundhinteriorismo.com",
-      description: "Tracking international shipments by DHL and import quotes",
-      technologies: [
-        { name: "React", color: "text-blue-400" },
-        { name: "Node.js", color: "text-green-400" },
-      ],
-    },
-  ];
+import Link from "next/link";
+import React, { useState } from "react";
+import { usePathname } from "next/navigation";
+import Image from "next/image";
+
+interface Technology {
+  name: string;
+  icon: string;
+  color: string;
+}
+
+interface Project {
+  id: number;
+  name: string;
+  description: string;
+  technologies: Technology[];
+  image?: string;
+  type?: string;
+  link: string;
+}
+
+function Projects({ projects }: { projects: Project[] }) {
+  const urlActual = usePathname();
+
+  // Estado para filtrar por tipo
+  const [filter, setFilter] = useState<string>("all");
+
+  // Lista de tipos únicos + "all"
+  const projectTypes = Array.from(
+    new Set(projects.map((p) => p.type).filter(Boolean))
+  ) as string[];
+
+  // Filtramos los proyectos según el filtro
+  const filteredProjects =
+    filter === "all" ? projects : projects.filter((p) => p.type === filter);
 
   return (
     <div className="px-6 mb-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-12">
-          <div className="flex items-center space-x-2 text-gray-400">
-            <h2 className="text-2xl font-light text-orange-500">Projects</h2>
-          </div>
-          <Link
-            href="/projects"
-            className="text-sm text-gray-400 hover:text-orange-400 transition-colors duration-200 flex items-center space-x-1"
-          >
-            <span>view all</span>
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+        {urlActual === "/" && (
+          <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center space-x-2 text-gray-400">
+              <h2 className="text-2xl font-light text-orange-500">Projects</h2>
+            </div>
+            <Link
+              href="/projects"
+              className="text-sm text-gray-400 hover:text-orange-400 transition-colors duration-200 flex items-center space-x-1"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
-        </div>
+              <span>view all</span>
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </Link>
+          </div>
+        )}
+        {urlActual === "/projects" && (
+          <div className="mb-8 flex flex-wrap gap-4 justify-center">
+            {/* Botón para ver todos */}
+            <button
+              onClick={() => setFilter("all")}
+              className={`px-4 py-1 rounded-full border transition-colors duration-200 ${
+                filter === "all"
+                  ? "bg-orange-500 text-white border-orange-500"
+                  : "border-gray-600 text-gray-400 hover:bg-orange-500 hover:text-white"
+              }`}
+            >
+              All
+            </button>
+
+            {projectTypes.map((type) => (
+              <button
+                key={type}
+                onClick={() => setFilter(type)}
+                className={`px-4 py-1 rounded-full border transition-colors duration-200 ${
+                  filter === type
+                    ? "bg-orange-500 text-white border-orange-500"
+                    : "border-gray-600 text-gray-400 hover:bg-orange-500 hover:text-white"
+                }`}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((project) => (
-            <div
+          {filteredProjects.map((project) => (
+            <Link
+              href={`/projects${project.link}`}
               key={project.id}
-              className="group bg-gray-800/50 border border-gray-700 rounded-lg p-6 hover:border-orange-500/50 transition-all duration-300 hover:bg-gray-800/80 cursor-pointer"
+              className="group relative bg-gray-800/50 border border-gray-700 rounded-lg p-6 hover:border-orange-500/50 transition-all duration-300 hover:bg-gray-800/80 cursor-pointer"
             >
               {/* Project Header */}
               <div className="flex items-start justify-between mb-4">
@@ -106,22 +128,33 @@ function Projects() {
                   />
                 </svg>
               </div>
-
+              {project.image && (
+                <Image
+                  src={project.image}
+                  width={300}
+                  height={300}
+                  alt={project.name}
+                />
+              )}
               {/* Project Description */}
               <p className="text-gray-400 mb-4">{project.description}</p>
 
               {/* Technologies */}
               <div className="flex flex-wrap gap-3">
                 {project.technologies.map((tech, index) => (
-                  <div key={index} className="flex items-center space-x-1">
-                    <div
-                      className={`w-3 h-3 rounded-full ${tech.color.replace("text-", "bg-")}`}
-                    ></div>
-                    <span className={`text-sm ${tech.color}`}>{tech.name}</span>
+                  <div key={index} className="flex items-center space-x-2">
+                    <img
+                      src={`https://cdn.simpleicons.org/${tech.icon}/${tech.color}`}
+                      alt={tech.name}
+                      className="w-5 h-5 brightness-75 hover:brightness-100 transition-all duration-200"
+                    />
+                    <span className={`text-sm transition-opacity duration-200`}>
+                      {tech.name}
+                    </span>
                   </div>
                 ))}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
