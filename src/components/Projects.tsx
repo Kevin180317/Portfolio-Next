@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 interface Technology {
   name: string;
@@ -22,7 +23,8 @@ interface Project {
 }
 
 function Projects({ projects }: { projects: Project[] }) {
-  const urlActual = usePathname();
+  const { Lang } = useLanguage();
+  const pathname = usePathname();
 
   // Estado para filtrar por tipo
   const [filter, setFilter] = useState<string>("all");
@@ -36,20 +38,25 @@ function Projects({ projects }: { projects: Project[] }) {
   const filteredProjects =
     filter === "all" ? projects : projects.filter((p) => p.type === filter);
 
+  // Para condicionar en qué rutas mostrar ciertas cosas
+  const cleanPath = pathname.replace(/^\/en/, "") || "/";
+
   return (
     <div className="px-6 mb-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        {urlActual === "/" && (
+        {(cleanPath === "/" || cleanPath === "/en") && (
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center space-x-2 text-gray-400">
-              <h2 className="text-2xl font-light text-orange-500">Projects</h2>
+              <h2 className="text-2xl font-light text-orange-500">
+                {Lang ? "Projects" : "Proyectos"}
+              </h2>
             </div>
             <Link
-              href="/projects"
+              href={Lang ? "/en/projects" : "/projects"}
               className="text-sm text-gray-400 hover:text-orange-400 transition-colors duration-200 flex items-center space-x-1"
             >
-              <span>view all</span>
+              <span>{Lang ? "view all" : "ver todos"}</span>
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -66,9 +73,10 @@ function Projects({ projects }: { projects: Project[] }) {
             </Link>
           </div>
         )}
-        {urlActual === "/projects" && (
+
+        {/* Mostrar filtro solo en página /projects (sin /en) */}
+        {cleanPath === "/projects" && (
           <div className="mb-8 flex flex-wrap gap-4 justify-center">
-            {/* Botón para ver todos */}
             <button
               onClick={() => setFilter("all")}
               className={`px-4 py-1 rounded-full border transition-colors duration-200 ${
@@ -77,7 +85,7 @@ function Projects({ projects }: { projects: Project[] }) {
                   : "border-gray-600 text-gray-400 hover:bg-orange-500 hover:text-white"
               }`}
             >
-              All
+              {Lang ? "All" : "Todos"}
             </button>
 
             {projectTypes.map((type) => (
@@ -100,7 +108,7 @@ function Projects({ projects }: { projects: Project[] }) {
         <div className="grid md:grid-cols-2 gap-6">
           {filteredProjects.map((project) => (
             <Link
-              href={`/projects${project.link}`}
+              href={`${Lang ? "/en/projects" : "/projects"}${project.link}`}
               key={project.id}
               className="group relative bg-gray-800/50 border border-gray-700 rounded-lg p-6 hover:border-orange-500/50 transition-all duration-300 hover:bg-gray-800/80 cursor-pointer"
             >

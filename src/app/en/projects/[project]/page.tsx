@@ -1,11 +1,11 @@
-import { projectsSpanish } from "@/app/data/projectListComplete";
+import { projectsEnglish } from "@/app/data/projectListComplete";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-// 🔍 Buscar proyecto por slug
+// 🔍 Find project by slug
 function getProjectBySlug(slug: string) {
-  return projectsSpanish.find((project) => {
+  return projectsEnglish.find((project) => {
     const projectSlug = project.link.replace("/", ""); // "/transtime" → "transtime"
     return projectSlug === slug;
   });
@@ -16,7 +16,6 @@ export default async function Page({
 }: {
   params: Promise<{ project: string }>;
 }) {
-  // Await the params Promise
   const { project } = await params;
 
   const matchedProject = getProjectBySlug(project);
@@ -28,7 +27,7 @@ export default async function Page({
   return (
     <div>
       <main className="container mx-auto px-4 py-8">
-        {/* Header del proyecto */}
+        {/* Project Header */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
             <Link href="/projects" className="text-orange-500 hover:text-white">
@@ -44,7 +43,7 @@ export default async function Page({
           </div>
         </div>
 
-        {/* Imagen del proyecto */}
+        {/* Project Image */}
         <div className="bg-gray-900 rounded-lg p-6 mb-8">
           {matchedProject.image && (
             <div className="relative w-full h-96 md:h-[500px] rounded-lg overflow-hidden">
@@ -59,10 +58,10 @@ export default async function Page({
           )}
         </div>
 
-        {/* Información adicional */}
+        {/* Additional Info */}
         <div className="grid md:grid-cols-2 gap-8">
           <div>
-            <h2 className="text-xl font-bold mb-4">Tecnologías Utilizadas</h2>
+            <h2 className="text-xl font-bold mb-4">Technologies Used</h2>
             <div className="grid grid-cols-2 gap-4">
               {matchedProject.technologies.map((tech) => (
                 <div
@@ -81,16 +80,16 @@ export default async function Page({
           </div>
 
           <div>
-            <h2 className="text-xl font-bold mb-4">Detalles del Proyecto</h2>
+            <h2 className="text-xl font-bold mb-4">Project Details</h2>
             <div className="bg-gray-900 p-6 rounded-lg">
               <div className="space-y-4">
                 <div>
-                  <span className="text-gray-400">Tipo:</span>
+                  <span className="text-gray-400">Type:</span>
                   <span className="ml-2 text-white">{matchedProject.type}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400">Estado:</span>
-                  <span className="ml-2 text-green-400">Completado</span>
+                  <span className="text-gray-400">Status:</span>
+                  <span className="ml-2 text-green-400">Completed</span>
                 </div>
               </div>
 
@@ -102,7 +101,7 @@ export default async function Page({
                     rel="noopener noreferrer"
                     className="inline-block bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
                   >
-                    Ver Proyecto Live
+                    View Live Project
                   </a>
                 </div>
               )}
@@ -115,7 +114,7 @@ export default async function Page({
 }
 
 export async function generateStaticParams() {
-  return projectsSpanish.map((project) => ({
+  return projectsEnglish.map((project) => ({
     project: project.link.replace("/", ""),
   }));
 }

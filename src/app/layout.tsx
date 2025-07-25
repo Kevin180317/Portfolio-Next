@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { M_PLUS_1_Code } from "next/font/google";
 import "./globals.css";
+import Nav from "@/components/Nav";
+import { LanguageProvider } from "@/app/context/LanguageContext";
+import Footer from "@/components/Footer";
 
 const mPlus1Code = M_PLUS_1_Code({
   subsets: ["latin"],
@@ -39,22 +42,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={mPlus1Code.className}>
+    <html lang="es" className={mPlus1Code.className}>
       <body className="max-w-3xl text-white relative h-full w-full bg-slate-950 mx-auto bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px]">
-        {children}
-        <footer className="text-center py-4 text-gray-400 text-sm">
-          <span>
-            Desarrollado por{" "}
-            <a
-              href="https://github.com/kevin180317"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-orange-400 hover:underline"
-            >
-              Kevin Okhuysen
-            </a>
-          </span>
-        </footer>
+        <LanguageProvider>
+          <Nav />
+          {children}
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );
