@@ -43,6 +43,14 @@ export const metadata: Metadata = {
     url: "https://okhuysen.dev",
     siteName: "Okhuysen Dev",
     type: "website",
+    images: [
+      {
+        url: "https://okhuysen.dev/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Vista previa del portafolio de Kevin Okhuysen",
+      },
+    ],
   },
 };
 
