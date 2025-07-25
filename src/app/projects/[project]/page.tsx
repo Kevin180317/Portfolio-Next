@@ -3,6 +3,7 @@ import { projectsComplete } from "@/app/data/projectListComplete";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+
 // 🔍 Buscar proyecto por slug
 function getProjectBySlug(slug: string) {
   return projectsComplete.find((project) => {
@@ -11,8 +12,13 @@ function getProjectBySlug(slug: string) {
   });
 }
 
-export default function Page({ params }: { params: { project: string } }) {
-  const { project } = params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ project: string }>;
+}) {
+  // Await the params Promise
+  const { project } = await params;
 
   const matchedProject = getProjectBySlug(project);
 
@@ -110,7 +116,7 @@ export default function Page({ params }: { params: { project: string } }) {
   );
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return projectsComplete.map((project) => ({
     project: project.link.replace("/", ""),
   }));
