@@ -79,7 +79,7 @@ function Projects({ projects }: { projects: Project[] }) {
           <div className="mb-8 flex flex-wrap gap-4 justify-center">
             <button
               onClick={() => setFilter("all")}
-              className={`px-4 py-1 rounded-full border transition-colors duration-200 ${
+              className={`px-4 py-1 rounded-full cursor-pointer border transition-colors duration-200 ${
                 filter === "all"
                   ? "bg-orange-500 text-white border-orange-500"
                   : "border-gray-600 text-gray-400 hover:bg-orange-500 hover:text-white"
@@ -88,11 +88,11 @@ function Projects({ projects }: { projects: Project[] }) {
               {Lang ? "All" : "Todos"}
             </button>
 
-            {projectTypes.map((type) => (
+            {projectTypes.reverse().map((type) => (
               <button
                 key={type}
                 onClick={() => setFilter(type)}
-                className={`px-4 py-1 rounded-full border transition-colors duration-200 ${
+                className={`px-4 py-1 rounded-full cursor-pointer border transition-colors duration-200 ${
                   filter === type
                     ? "bg-orange-500 text-white border-orange-500"
                     : "border-gray-600 text-gray-400 hover:bg-orange-500 hover:text-white"

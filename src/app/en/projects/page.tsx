@@ -1,4 +1,5 @@
 "use client";
+import Stack from "@/components/Stack";
 import Projects from "@/components/Projects";
 import React from "react";
 import {
@@ -12,6 +13,7 @@ function Page() {
   const projects = Lang ? projectsEnglish : projectsSpanish;
   return (
     <main className="relative z-10">
+      <Stack />
       <Projects projects={projects} />
     </main>
   );
