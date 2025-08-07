@@ -47,7 +47,7 @@ const projectsES: Project[] = [
       { name: "Node", icon: "nodedotjs", color: "339933" },
       { name: "Express", icon: "express", color: "FFFFFF" },
     ],
-    link: "/prometheus",
+    link: "/prometheustij",
   },
   {
     id: 4,
@@ -60,7 +60,7 @@ const projectsES: Project[] = [
       { name: "Tailwind", icon: "tailwindcss", color: "06B6D4" },
       { name: "Express", icon: "express", color: "FFFFFF" },
     ],
-    link: "/akerlundh",
+    link: "/akerlundhinteriorismo",
   },
 ];
 
@@ -99,7 +99,7 @@ const projectsEN: Project[] = [
       { name: "Node", icon: "nodedotjs", color: "339933" },
       { name: "Express", icon: "express", color: "FFFFFF" },
     ],
-    link: "/prometheus",
+    link: "/prometheustij",
   },
   {
     id: 4,
@@ -112,7 +112,7 @@ const projectsEN: Project[] = [
       { name: "Tailwind", icon: "tailwindcss", color: "06B6D4" },
       { name: "Express", icon: "express", color: "FFFFFF" },
     ],
-    link: "/akerlundh",
+    link: "/akerlundhinteriorismo",
   },
 ];
 
