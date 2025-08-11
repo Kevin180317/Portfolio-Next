@@ -83,7 +83,7 @@ const projectsSpanish: Project[] = [
       { name: "Swift", icon: "swift", color: "FA7343" },
     ],
     image: "/1.webp",
-    link: "#",
+    link: "medical-potfolio",
     type: "Prometheus",
   },
   {
@@ -97,7 +97,7 @@ const projectsSpanish: Project[] = [
       { name: "Vue.js", icon: "vuedotjs", color: "42B883" },
     ],
     image: "/laravel.png",
-    link: "#",
+    link: "cenyca",
     type: "FreeLancer",
   },
   {
@@ -420,7 +420,7 @@ const projectsEnglish: Project[] = [
       { name: "Swift", icon: "swift", color: "FA7343" },
     ],
     image: "/1.webp",
-    link: "#",
+    link: "medical-potfolio",
     type: "Prometheus",
   },
   {
@@ -434,7 +434,7 @@ const projectsEnglish: Project[] = [
       { name: "Vue.js", icon: "vuedotjs", color: "42B883" },
     ],
     image: "/laravel.png",
-    link: "#",
+    link: "cenyca",
     type: "FreeLancer",
   },
   {

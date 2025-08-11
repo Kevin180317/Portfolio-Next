@@ -6,7 +6,7 @@ import Link from "next/link";
 // 🔍 Find project by slug
 function getProjectBySlug(slug: string) {
   return projectsEnglish.find((project) => {
-    const projectSlug = project.link.replace("/", ""); // "/transtime" → "transtime"
+    const projectSlug = project.link.replace("/", "");
     return projectSlug === slug;
   });
 }
