@@ -350,6 +350,20 @@ const projectsSpanish: Project[] = [
     link: "/dentistareforma",
     type: "Ecommetrica",
     externalLink: "https://dentistareforma.com"
+  },
+  {
+    id: 25,
+    name: "Crioste",
+    description: "Landing Page de Crioste enfocada en las investigaciones privadas y servicios que ofrecen en todo el sector de Mexico",
+    technologies: [
+      { name: "Astro", icon: "astro", color: "BC52EE" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/crioste.webp",
+    link: "/crioste",
+    type: "FreeLancer",
+    externalLink: "https://crioste.com/"
   }
 ] as const;
 
@@ -687,6 +701,20 @@ const projectsEnglish: Project[] = [
     link: "/dentistareforma",
     type: "Ecommetrica",
     externalLink: "https://dentistareforma.com"
+  },
+  {
+    id: 25,
+    name: "Crioste",
+    description: "Landing page for Crioste focused on private investigations and services offered throughout Mexico.",
+    technologies: [
+      { name: "Astro", icon: "astro", color: "BC52EE" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/crioste.webp",
+    link: "/crioste",
+    type: "FreeLancer",
+    externalLink: "https://crioste.com/"
   }
 ] as const;
 
