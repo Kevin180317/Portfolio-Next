@@ -364,7 +364,21 @@ const projectsSpanish: Project[] = [
     link: "/crioste",
     type: "FreeLancer",
     externalLink: "https://crioste.com/"
-  }
+  },
+    {
+  id: 26,
+  name: "Sistema Administrativo Interno",
+  description: "Sistema interno de gestión administrativa diseñado para un bufete de abogados, que proporciona un control centralizado de los clientes, los recibos, las solicitudes de dietas, los informes de gastos, la creación de usuarios y las notificaciones internas.",
+  technologies: [
+    { "name": "React", "icon": "react", "color": "61DAFB" },
+    { "name": "Express", "icon": "express", "color": "000000" },
+    { "name": "MySQL", "icon": "mysql", "color": "4479A1" },
+    { "name": "Tailwindcss", "icon": "tailwindcss", "color": "06B6D4" }
+  ],
+  image: "/sistema.webp",
+  link: "/sistema-admin",
+  type: "FreeLancer",
+}
 ] as const;
 
 const projectsEnglish: Project[] = [
@@ -715,7 +729,23 @@ const projectsEnglish: Project[] = [
     link: "/crioste",
     type: "FreeLancer",
     externalLink: "https://crioste.com/"
+  },
+    {
+    id: 26,
+    name: "Internal Administrative System",
+    description: "Internal administrative management system designed for a law firm, providing centralized control of clients, receipts, per diem requests, expense reports, user creation, and internal notifications. ",
+    technologies: [
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Express", icon: "express", color: "000000" },
+      { name: "MySQL", icon: "mysql", color: "4479A1" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" }
+    ],
+    image: "/sistema.webp",
+    link: "/sistema-admin",
+    type: "FreeLancer",
   }
+
+
 ] as const;
 
 export { projectsSpanish, projectsEnglish };

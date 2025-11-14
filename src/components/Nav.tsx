@@ -30,6 +30,7 @@ function Nav() {
       { label: Lang ? "Home" : "Inicio", path: "/" },
       { label: Lang ? "Projects" : "Proyectos", path: "/projects" },
       { label: Lang ? "Contact" : "Contacto", path: "/contact" },
+      { label: Lang ? "Testimonials" : "Testimonios", path: "/testimonials" },
     ],
     [Lang]
   );
