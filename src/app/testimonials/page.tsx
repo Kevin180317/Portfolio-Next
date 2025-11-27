@@ -15,32 +15,28 @@ export default function TestimoniosES() {
           {testimonialsES.map((item) => (
             <div
               key={item.id}
-              className="bg-white/5 border border-white/10 p-6 rounded-2xl shadow-lg hover:bg-white/10 transition hover:border-orange-500"
+              className={`bg-white/5 border border-white/10 p-6 rounded-2xl shadow-lg hover:bg-white/10 transition hover:border-orange-500 
+              ${item.id === 5 ? "md:col-span-2" : ""}`}
             >
               {/* Header con avatar e info */}
               <div className="flex items-center gap-4">
-                {/* AVATAR con inicial */}
                 <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-xl shadow-md">
                   {item.author?.charAt(0).toUpperCase()}
                 </div>
 
-                {/* Nombre + Proyecto */}
                 <div>
-                  <h2 className="text-lg font-semibold text-white">
+                  <h2 className="text-lg font-semibold text-white uppercase">
                     {item.author}
                   </h2>
                   <p className="text-orange-400 text-sm">{item.project}</p>
                 </div>
               </div>
 
-              {/* Testimonial */}
               <p className="text-gray-300 mt-4 leading-relaxed">
                 “{item.testimonial}”
               </p>
 
-              {/* Rating */}
               <div className="flex items-center gap-1 mt-4">
-                {/* Estrellas llenas */}
                 {Array.from({ length: item.rating }).map((_, i) => (
                   <svg
                     key={i}
@@ -52,7 +48,6 @@ export default function TestimoniosES() {
                   </svg>
                 ))}
 
-                {/* Estrellas vacías */}
                 {Array.from({ length: 5 - item.rating }).map((_, i) => (
                   <svg
                     key={`empty-${i}`}
