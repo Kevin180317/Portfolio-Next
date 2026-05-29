@@ -434,6 +434,20 @@ const projectsSpanish: Project[] = [
     link: "/diazconstructions",
     type: "Ecommetrica",
     externalLink: "https://diazconstructions.com/"
+  },
+  {
+    id: 31,
+    name: "Lucky Tracker",
+    description: "Aplicación para encontrar mascotas perdidas mediante alertas impulsadas por la comunidad y seguimiento de ubicación en tiempo real.",
+    technologies: [
+      { name: "Next.js", icon: "nextdotjs", color: "000000" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/luckytracker.png",
+    link: "/luckytracker",
+    type: "Prometheus",
+    externalLink: "https://la-peturnidad.vercel.app/"
   }
 ] as const;
 
@@ -855,6 +869,20 @@ const projectsEnglish: Project[] = [
     link: "/diazconstructions",
     type: "Ecommetrica",
     externalLink: "https://diazconstructions.com/"
+  },
+  {
+    id: 31,
+    name: "Lucky Tracker",
+    description: "App for finding lost pets through community-driven alerts and real-time location tracking.",
+    technologies: [
+      { name: "Next.js", icon: "nextdotjs", color: "000000" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/luckytracker.png",
+    link: "/luckytracker",
+    type: "Prometheus",
+    externalLink: "https://la-peturnidad.vercel.app/"
   }
 ] as const;
 
