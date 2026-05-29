@@ -54,7 +54,7 @@ const projectsSpanish: Project[] = [
       { name: "Node.js", icon: "nodedotjs", color: "339933" },
       { name: "Express", icon: "express", color: "FFFFFF" },
     ],
-    image: "/PrometheusPage.png",
+    image: "/prometheustij.png",
     link: "/prometheustij",
     type: "Prometheus",
     externalLink: "https://prometheustij.com"
@@ -378,7 +378,63 @@ const projectsSpanish: Project[] = [
   image: "/sistema.webp",
   link: "/sistema-admin",
   type: "FreeLancer",
-}
+  },
+  {
+    id: 27,
+    name: "Dr. Jaime Lumbán",
+    description: "Página del Dr. Jaime Lumbán, otorrinolaringólogo en Tijuana con más de 33 años de experiencia en rinoplastia estética y funcional, y tratamiento integral de oídos, nariz y garganta.",
+    technologies: [
+      { name: "Astro", icon: "astro", color: "BC52EE" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/drlumban.png",
+    link: "/doctorlumban",
+    type: "Ecommetrica",
+    externalLink: "https://drlumban.com/"
+  },
+  {
+    id: 28,
+    name: "Palmas Recovery",
+    description: "Casa de recuperación postoperatoria en Tijuana con enfermería 24/7 y médicos internos, especializada en cuidados posteriores a cirugía plástica.",
+    technologies: [
+      { name: "Astro", icon: "astro", color: "BC52EE" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/palmasrecovery.png",
+    link: "/palmasrecovery",
+    type: "Ecommetrica",
+    externalLink: "https://palmasrecovery.com/"
+  },
+  {
+    id: 29,
+    name: "ScanEat",
+    description: "Web app para restaurantes que digitaliza el servicio con menú digital QR, sistema de comandas en tiempo real, KDS, facturación y reportes.",
+    technologies: [
+      { name: "Next.js", icon: "nextdotjs", color: "000000" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/scaneatmx.png",
+    link: "/scaneat",
+    type: "Ecommetrica",
+    externalLink: "https://scaneat.mx/"
+  },
+  {
+    id: 30,
+    name: "Diaz Constructions",
+    description: "Empresa de construcción general en San Francisco especializada en remodelaciones, ADUs, cocinas, baños, paisajismo y construcción residencial y comercial.",
+    technologies: [
+      { name: "Astro", icon: "astro", color: "BC52EE" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/diazconstructions.png",
+    link: "/diazconstructions",
+    type: "Ecommetrica",
+    externalLink: "https://diazconstructions.com/"
+  }
 ] as const;
 
 const projectsEnglish: Project[] = [
@@ -419,7 +475,7 @@ const projectsEnglish: Project[] = [
       { name: "Node.js", icon: "nodedotjs", color: "339933" },
       { name: "Express", icon: "express", color: "FFFFFF" },
     ],
-    image: "/PrometheusPage.png",
+    image: "/prometheustij.png",
     link: "/prometheustij",
     type: "Prometheus",
     externalLink: "https://prometheustij.com"
@@ -743,9 +799,63 @@ const projectsEnglish: Project[] = [
     image: "/sistema.webp",
     link: "/sistema-admin",
     type: "FreeLancer",
+  },
+  {
+    id: 27,
+    name: "Dr. Jaime Lumbán",
+    description: "Page for Dr. Jaime Lumbán, otorhinolaryngologist in Tijuana with over 33 years of experience in aesthetic and functional rhinoplasty, and comprehensive treatment of ears, nose, and throat.",
+    technologies: [
+      { name: "Astro", icon: "astro", color: "BC52EE" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/drlumban.png",
+    link: "/doctorlumban",
+    type: "Ecommetrica",
+    externalLink: "https://drlumban.com/"
+  },
+  {
+    id: 28,
+    name: "Palmas Recovery",
+    description: "Post-operative recovery house in Tijuana with 24/7 nursing and in-house doctors, specialized in post-plastic surgery care.",
+    technologies: [
+      { name: "Astro", icon: "astro", color: "BC52EE" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/palmasrecovery.png",
+    link: "/palmasrecovery",
+    type: "Ecommetrica",
+    externalLink: "https://palmasrecovery.com/"
+  },
+  {
+    id: 29,
+    name: "ScanEat",
+    description: "Web app for restaurants that digitizes service with QR digital menus, real-time order system, KDS, invoicing, and reports.",
+    technologies: [
+      { name: "Next.js", icon: "nextdotjs", color: "000000" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/scaneatmx.png",
+    link: "/scaneat",
+    type: "Ecommetrica",
+    externalLink: "https://scaneat.mx/"
+  },
+  {
+    id: 30,
+    name: "Diaz Constructions",
+    description: "General construction company in San Francisco specialized in remodels, ADUs, kitchens, bathrooms, landscaping, and residential and commercial construction.",
+    technologies: [
+      { name: "Astro", icon: "astro", color: "BC52EE" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+    ],
+    image: "/diazconstructions.png",
+    link: "/diazconstructions",
+    type: "Ecommetrica",
+    externalLink: "https://diazconstructions.com/"
   }
-
-
 ] as const;
 
 export { projectsSpanish, projectsEnglish };
