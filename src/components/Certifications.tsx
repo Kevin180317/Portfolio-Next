@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useLanguage } from "@/app/context/LanguageContext";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 interface Certification {
   title: string;
@@ -133,9 +134,15 @@ function CertModal({
 function Certifications() {
   const { Lang } = useLanguage();
   const [activeCert, setActiveCert] = useState<Certification | null>(null);
+  const { ref, visible } = useScrollReveal<HTMLElement>();
 
   return (
-    <section className="py-16 px-6">
+    <section
+      ref={ref}
+      className={`py-16 px-6 transition-all duration-700 ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      }`}
+    >
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold text-white mb-2">
           {Lang ? "Certifications" : "Certificaciones"}

@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 interface StackItem {
   name: string;
@@ -10,6 +12,8 @@ interface StackItem {
 
 function Stack() {
   const [animatedItems, setAnimatedItems] = useState<Set<number>>(new Set());
+  const { ref, visible } = useScrollReveal<HTMLDivElement>();
+  const { Lang } = useLanguage();
 
   // Todas las tecnologías organizadas como en la imagen con sus colores
   const stackItems: StackItem[] = [
@@ -63,9 +67,21 @@ function Stack() {
   };
 
   return (
-    <div className="py-16">
-      <div className="max-w-6xl mx-auto px-6 text-center">
-        {/* Grid flexible que se adapta al contenido */}
+    <div
+      ref={ref}
+      className={`py-16 transition-all duration-700 ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      }`}
+    >
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="mb-8 border-t border-gray-800 pt-10">
+          <p className="text-orange-500 text-sm tracking-widest uppercase mb-2">
+            {Lang ? "Tech stack" : "Tecnologías"}
+          </p>
+          <h2 className="text-2xl font-bold text-white">
+            {Lang ? "Tools I work with" : "Herramientas con las que trabajo"}
+          </h2>
+        </div>
         <div className="flex flex-wrap justify-center items-center gap-4 max-w-5xl mx-auto">
           {stackItems.map((item, index) => (
             <div

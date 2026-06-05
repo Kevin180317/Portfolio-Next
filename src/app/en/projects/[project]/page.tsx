@@ -3,12 +3,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-// 🔍 Find project by slug
 function getProjectBySlug(slug: string) {
-  return projectsEnglish.find((project) => {
-    const projectSlug = project.link.replace("/", "");
-    return projectSlug === slug;
-  });
+  return projectsEnglish.find((p) => p.link.replace("/", "") === slug);
 }
 
 export default async function Page({
@@ -17,104 +13,101 @@ export default async function Page({
   params: Promise<{ project: string }>;
 }) {
   const { project } = await params;
-
-  const matchedProject = getProjectBySlug(project);
-
-  if (!matchedProject) {
-    notFound();
-  }
+  const p = getProjectBySlug(project);
+  if (!p) notFound();
 
   return (
-    <div>
-      <main className="container mx-auto px-4 py-8">
-        {/* Project Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <Link href="/projects" className="text-orange-500 hover:text-white">
-              Projects
-            </Link>
-            <span className="text-gray-400">›</span>
-            <span className="text-white">{matchedProject.name}</span>
-          </div>
+    <main className="px-6 py-10 max-w-4xl mx-auto">
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-2 text-sm mb-8">
+        <Link href="/en/projects" className="text-orange-500 hover:text-orange-400 transition-colors">
+          Projects
+        </Link>
+        <span className="text-gray-600">›</span>
+        <span className="text-gray-400">{p.name}</span>
+      </nav>
 
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-2xl">📦</span>
-            <p className="text-gray-300">{matchedProject.description}</p>
-          </div>
-        </div>
-
-        {/* Project Image */}
-        <div className="bg-gray-900 rounded-lg p-6 mb-8">
-          {matchedProject.image && (
-            <div className="relative w-full h-96 md:h-[500px] rounded-lg overflow-hidden">
-              <Image
-                src={matchedProject.image}
-                alt={matchedProject.name}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+      {/* Title block */}
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-3">
+          {p.type && (
+            <span className="text-xs px-2.5 py-1 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 uppercase tracking-wide">
+              {p.type}
+            </span>
           )}
+          <span className="text-xs px-2.5 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
+            Completed
+          </span>
         </div>
+        <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">{p.name}</h1>
+        <p className="text-gray-300 leading-relaxed">{p.description}</p>
+      </div>
 
-        {/* Additional Info */}
-        <div className="grid md:grid-cols-2 gap-8">
-          <div>
-            <h2 className="text-xl font-bold mb-4">Technologies Used</h2>
-            <div className="grid grid-cols-2 gap-4">
-              {matchedProject.technologies.map((tech) => (
-                <div
-                  key={tech.name}
-                  className="bg-gray-900 p-4 rounded-lg flex items-center gap-3"
-                >
-                  <img
-                    src={`https://cdn.simpleicons.org/${tech.icon}/${tech.color}`}
-                    alt={tech.name}
-                    className="w-5 h-5 brightness-75 hover:brightness-100 transition-all duration-200"
-                  />
-                  <span className="text-white">{tech.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-bold mb-4">Project Details</h2>
-            <div className="bg-gray-900 p-6 rounded-lg">
-              <div className="space-y-4">
-                <div>
-                  <span className="text-gray-400">Type:</span>
-                  <span className="ml-2 text-white">{matchedProject.type}</span>
-                </div>
-                <div>
-                  <span className="text-gray-400">Status:</span>
-                  <span className="ml-2 text-green-400">Completed</span>
-                </div>
-              </div>
-
-              {matchedProject.externalLink && (
-                <div className="mt-6">
-                  <a
-                    href={matchedProject.externalLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
-                  >
-                    View Live Project
-                  </a>
-                </div>
-              )}
-            </div>
-          </div>
+      {/* Hero image */}
+      {p.image && (
+        <div className="relative w-full rounded-2xl overflow-hidden mb-10 border border-gray-800">
+          <Image
+            src={p.image}
+            alt={p.name}
+            width={1200}
+            height={630}
+            className="w-full h-auto object-cover"
+            priority
+          />
         </div>
-      </main>
-    </div>
+      )}
+
+      {/* Technologies */}
+      <div className="mb-10">
+        <h2 className="text-lg font-semibold text-white mb-4">Technologies used</h2>
+        <div className="flex flex-wrap gap-3">
+          {p.technologies.map((tech) => (
+            <div
+              key={tech.name}
+              className="flex items-center gap-2 px-3 py-2 border border-gray-700 rounded-lg hover:border-orange-500/50 transition-all duration-200 bg-gray-900/30"
+            >
+              <img
+                src={`https://cdn.simpleicons.org/${tech.icon}/${tech.color}`}
+                alt={tech.name}
+                className="w-4 h-4"
+              />
+              <span className="text-sm text-gray-300">{tech.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="flex flex-wrap gap-3 pt-2 border-t border-gray-800">
+        {p.externalLink && (
+          <a
+            href={p.externalLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105"
+          >
+            View live project
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        )}
+        <Link
+          href="/en/projects"
+          className="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-700 hover:border-orange-500 text-gray-300 hover:text-white text-sm font-medium rounded-lg transition-all duration-200"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          All projects
+        </Link>
+      </div>
+    </main>
   );
 }
 
 export async function generateStaticParams() {
-  return projectsEnglish.map((project) => ({
-    project: project.link.replace("/", ""),
+  return projectsEnglish.map((p) => ({
+    project: p.link.replace("/", ""),
   }));
 }

@@ -448,6 +448,23 @@ const projectsSpanish: Project[] = [
     link: "/luckytracker",
     type: "Prometheus",
     externalLink: "https://la-peturnidad.vercel.app/"
+  },
+  {
+    id: 32,
+    name: "Excellentia Foods",
+    description: "Landing page + dashboard empresarial para Excellentia Foods. El dashboard (app.excellentiafoods) integra QuickBooks Online / Intuit para gestión financiera y contable, sincronizado con una app Android que maneja todo el flujo operativo.",
+    technologies: [
+      { name: "Express", icon: "express", color: "FFFFFF" },
+      { name: "Node.js", icon: "nodedotjs", color: "339933" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwind", icon: "tailwindcss", color: "06B6D4" },
+      { name: "Android Studio", icon: "androidstudio", color: "3DDC84" },
+      { name: "QuickBooks", icon: "quickbooks", color: "2CA01C" },
+    ],
+    image: "/excellentiafoods.png",
+    link: "/excellentiafoods",
+    type: "Ecommetrica",
+    externalLink: "https://excellentiafoods.com"
   }
 ] as const;
 
@@ -883,6 +900,23 @@ const projectsEnglish: Project[] = [
     link: "/luckytracker",
     type: "Prometheus",
     externalLink: "https://la-peturnidad.vercel.app/"
+  },
+  {
+    id: 32,
+    name: "Excellentia Foods",
+    description: "Landing page + business dashboard for Excellentia Foods. The dashboard (app.excellentiafoods) integrates QuickBooks Online / Intuit for financial and accounting management, synced with an Android app that handles the full operational flow.",
+    technologies: [
+      { name: "Express", icon: "express", color: "FFFFFF" },
+      { name: "Node.js", icon: "nodedotjs", color: "339933" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwind", icon: "tailwindcss", color: "06B6D4" },
+      { name: "Android Studio", icon: "androidstudio", color: "3DDC84" },
+      { name: "QuickBooks", icon: "quickbooks", color: "2CA01C" },
+    ],
+    image: "/excellentiafoods.png",
+    link: "/excellentiafoods",
+    type: "Ecommetrica",
+    externalLink: "https://excellentiafoods.com"
   }
 ] as const;
 
