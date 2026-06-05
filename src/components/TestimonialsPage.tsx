@@ -90,7 +90,7 @@ function TestimonialsPage() {
             </div>
           </div>
           <p className="text-gray-200 leading-relaxed text-[15px]">
-            "{featured.testimonial}"
+            &ldquo;{featured.testimonial}&rdquo;
           </p>
         </div>
 
@@ -119,7 +119,7 @@ function TestimonialsPage() {
                 </div>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed">
-                "{item.testimonial}"
+                &ldquo;{item.testimonial}&rdquo;
               </p>
             </div>
           ))}

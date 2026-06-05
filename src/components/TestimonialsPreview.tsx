@@ -76,7 +76,7 @@ function TestimonialsPreview() {
                     <Stars rating={item.rating} />
                   </div>
                   <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">
-                    "{item.testimonial}"
+                    &ldquo;{item.testimonial}&rdquo;
                   </p>
                 </div>
               </div>
