@@ -2,7 +2,11 @@
 import { useLanguage } from "@/app/context/LanguageContext";
 import React, { useEffect, useState } from "react";
 
-const rolesES = ["Desarrollador Web", "Desarrollador Mobile", "Freelancer Full Stack"];
+const rolesES = [
+  "Desarrollador Web",
+  "Desarrollador Mobile",
+  "Freelancer Full Stack",
+];
 const rolesEN = ["Web Developer", "Mobile Developer", "Full Stack Freelancer"];
 
 function Typewriter({ roles }: { roles: string[] }) {
@@ -70,12 +74,16 @@ function Hero() {
               </span>
 
               <a
-                href="https://okhuysen.me/"
+                href="/cv.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition"
               >
-                <svg className="w-3.5 h-3.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <svg
+                  className="w-3.5 h-3.5 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
                   <path d="M12.293 2.293a1 1 0 011.414 0L18 6.586a1 1 0 010 1.414l-8.25 8.25a1 1 0 01-.492.263l-4.5 1a1 1 0 01-1.212-1.212l1-4.5a1 1 0 01.263-.492l8.25-8.25zM15 7l-2-2-8.25 8.25-.5 2.25 2.25-.5L15 7z" />
                 </svg>
                 {Lang ? "View my CV" : "Ver mi CV"}
