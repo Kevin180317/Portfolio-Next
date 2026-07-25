@@ -6,6 +6,7 @@ import Projects from "@/components/Projects";
 import Stats from "@/components/Stats";
 import Stack from "@/components/Stack";
 import TestimonialsPreview from "@/components/TestimonialsPreview";
+import ExperiencePreview from "@/components/ExperiencePreview";
 import Certifications from "@/components/Certifications";
 import { projectsEN, projectsES } from "@/app/data/projectsList";
 import { useLanguage } from "@/app/context/LanguageContext";
@@ -20,6 +21,7 @@ function Page() {
       <Stats />
       <Stack />
       <Projects projects={projects} />
+      <ExperiencePreview />
       <TestimonialsPreview />
       <Certifications />
     </main>
