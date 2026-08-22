@@ -9,7 +9,7 @@ const contactSchema = z.object({
   // Honeypot: campo oculto que solo un bot llenaría. Si viene con contenido,
   // respondemos éxito sin enviar el correo.
   company: z.string().optional(),
-  turnstileToken: z.string().min(1).max(2048).optional(),
+  turnstileToken: z.string().max(2048).optional(),
 });
 
 async function verifyTurnstileToken(token: string, remoteip: string) {
