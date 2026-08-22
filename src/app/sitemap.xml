@@ -95,6 +95,9 @@
   <url>
     <loc>https://okhuysen.dev/projects/cenyca</loc>
   </url>
+  <url>
+    <loc>https://okhuysen.dev/projects/enriqueciapara</loc>
+  </url>
 
   <!-- Proyectos EN -->
   <url>
@@ -168,5 +171,8 @@
   </url>
   <url>
     <loc>https://okhuysen.dev/en/projects/cenyca</loc>
+  </url>
+  <url>
+    <loc>https://okhuysen.dev/en/projects/enriqueciapara</loc>
   </url>
 </urlset>

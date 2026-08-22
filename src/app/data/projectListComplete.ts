@@ -465,6 +465,23 @@ const projectsSpanish: Project[] = [
     link: "/excellentiafoods",
     type: "Ecommetrica",
     externalLink: "https://excellentiafoods.com"
+  },
+  {
+    id: 33,
+    name: "Enrique Ciapara",
+    description: "Portafolio del artista visual Enrique Ciapara, pintor de Tijuana con 35 años de trayectoria, mostrando sus obras, series y exhibiciones recientes con soporte multilenguaje (i18n).",
+    technologies: [
+      { name: "Next.js", icon: "nextdotjs", color: "000000" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+      { name: "Framer Motion", icon: "framer", color: "0055FF" },
+      { name: "Node.js", icon: "nodedotjs", color: "339933" },
+      { name: "Cloudflare R2", icon: "cloudflare", color: "F38020" },
+    ],
+    image: "/enriqueciapara.webp",
+    link: "/enriqueciapara",
+    type: "Ecommetrica",
+    externalLink: "https://enriqueciapara.com/"
   }
 ] as const;
 
@@ -917,6 +934,23 @@ const projectsEnglish: Project[] = [
     link: "/excellentiafoods",
     type: "Ecommetrica",
     externalLink: "https://excellentiafoods.com"
+  },
+  {
+    id: 33,
+    name: "Enrique Ciapara",
+    description: "Portfolio for visual artist Enrique Ciapara, a Tijuana-based painter with 35 years of career, showcasing his works, series, and recent exhibitions with multi-language (i18n) support.",
+    technologies: [
+      { name: "Next.js", icon: "nextdotjs", color: "000000" },
+      { name: "React", icon: "react", color: "61DAFB" },
+      { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
+      { name: "Framer Motion", icon: "framer", color: "0055FF" },
+      { name: "Node.js", icon: "nodedotjs", color: "339933" },
+      { name: "Cloudflare R2", icon: "cloudflare", color: "F38020" },
+    ],
+    image: "/enriqueciapara.webp",
+    link: "/enriqueciapara",
+    type: "Ecommetrica",
+    externalLink: "https://enriqueciapara.com/"
   }
 ] as const;
 
