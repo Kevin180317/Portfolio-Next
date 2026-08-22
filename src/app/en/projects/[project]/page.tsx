@@ -67,7 +67,7 @@ export default async function Page({
               className="flex items-center gap-2 px-3 py-2 border border-gray-700 rounded-lg hover:border-orange-500/50 transition-all duration-200 bg-gray-900/30"
             >
               <img
-                src={`https://cdn.simpleicons.org/${tech.icon}/${tech.color}`}
+                src={`/icons/${tech.icon}-${tech.color}.svg`}
                 alt={tech.name}
                 className="w-4 h-4"
               />

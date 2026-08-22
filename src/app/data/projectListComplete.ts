@@ -69,7 +69,7 @@ const projectsSpanish: Project[] = [
       { name: "Tailwind", icon: "tailwindcss", color: "06B6D4" },
       { name: "Express", icon: "express", color: "FFFFFF" },
     ],
-    image: "/akerlundh.png",
+    image: "/akerlundh.webp",
     link: "/akerlundhinteriorismo",
     type: "Prometheus",
     externalLink: "https://akerlundhinteriorismo.com/"
@@ -150,7 +150,7 @@ const projectsSpanish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/dashboard.png",
+    image: "/dashboard.webp",
     link: "/e-commetrics",
     type: "Ecommetrica",
     externalLink: "https://e-commetrics.com"
@@ -177,7 +177,7 @@ const projectsSpanish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/jareddo.png",
+    image: "/jareddo.webp",
     link: "/jareddosushi",
     type: "FreeLancer",
     externalLink: "https://jareddosushi.com/"
@@ -219,7 +219,7 @@ const projectsSpanish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/cesiapage.png",
+    image: "/cesiapage.webp",
     link: "/cesiaborjon",
     type: "Ecommetrica",
     externalLink: "https://cesiaborjon.com/"
@@ -260,7 +260,7 @@ const projectsSpanish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/martin.png",
+    image: "/martin.webp",
     link: "/otorrinomartingonzalez",
     type: "Ecommetrica",
     externalLink: "http://otorrinomartingonzalez.com/"
@@ -402,7 +402,7 @@ const projectsSpanish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/palmasrecovery.png",
+    image: "/palmasrecovery.webp",
     link: "/palmasrecovery",
     type: "Ecommetrica",
     externalLink: "https://palmasrecovery.com/"
@@ -430,7 +430,7 @@ const projectsSpanish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/diazconstructions.png",
+    image: "/diazconstructions.webp",
     link: "/diazconstructions",
     type: "Ecommetrica",
     externalLink: "https://diazconstructions.com/"
@@ -444,7 +444,7 @@ const projectsSpanish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/luckytracker.png",
+    image: "/luckytracker.webp",
     link: "/luckytracker",
     type: "Prometheus",
     externalLink: "https://la-peturnidad.vercel.app/"
@@ -538,7 +538,7 @@ const projectsEnglish: Project[] = [
       { name: "Tailwind", icon: "tailwindcss", color: "06B6D4" },
       { name: "Express", icon: "express", color: "FFFFFF" },
     ],
-    image: "/akerlundh.png",
+    image: "/akerlundh.webp",
     link: "/akerlundhinteriorismo",
     type: "Prometheus",
     externalLink: "https://akerlundhinteriorismo.com/"
@@ -619,7 +619,7 @@ const projectsEnglish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/dashboard.png",
+    image: "/dashboard.webp",
     link: "/e-commetrics",
     type: "Ecommetrica",
     externalLink: "https://e-commetrics.com"
@@ -646,7 +646,7 @@ const projectsEnglish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/jareddo.png",
+    image: "/jareddo.webp",
     link: "/jareddosushi",
     type: "FreeLancer",
     externalLink: "https://jareddosushi.com/"
@@ -688,7 +688,7 @@ const projectsEnglish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/cesiapage.png",
+    image: "/cesiapage.webp",
     link: "/cesiaborjon",
     type: "Ecommetrica",
     externalLink: "https://cesiaborjon.com/"
@@ -729,7 +729,7 @@ const projectsEnglish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/martin.png",
+    image: "/martin.webp",
     link: "/otorrinomartingonzalez",
     type: "Ecommetrica",
     externalLink: "http://otorrinomartingonzalez.com/"
@@ -871,7 +871,7 @@ const projectsEnglish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/palmasrecovery.png",
+    image: "/palmasrecovery.webp",
     link: "/palmasrecovery",
     type: "Ecommetrica",
     externalLink: "https://palmasrecovery.com/"
@@ -899,7 +899,7 @@ const projectsEnglish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/diazconstructions.png",
+    image: "/diazconstructions.webp",
     link: "/diazconstructions",
     type: "Ecommetrica",
     externalLink: "https://diazconstructions.com/"
@@ -913,7 +913,7 @@ const projectsEnglish: Project[] = [
       { name: "React", icon: "react", color: "61DAFB" },
       { name: "Tailwindcss", icon: "tailwindcss", color: "06B6D4" },
     ],
-    image: "/luckytracker.png",
+    image: "/luckytracker.webp",
     link: "/luckytracker",
     type: "Prometheus",
     externalLink: "https://la-peturnidad.vercel.app/"

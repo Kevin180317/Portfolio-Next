@@ -156,9 +156,12 @@ function Projects({ projects }: { projects: Project[] }) {
                       className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-gray-800/60 border border-gray-700/50"
                     >
                       <img
-                        src={`https://cdn.simpleicons.org/${tech.icon}/${tech.color}`}
+                        src={`/icons/${tech.icon}-${tech.color}.svg`}
                         alt={tech.name}
                         className="w-3.5 h-3.5"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://cdn.simpleicons.org/${tech.icon}/${tech.color}`;
+                        }}
                       />
                       <span className="text-xs text-gray-400">{tech.name}</span>
                     </div>

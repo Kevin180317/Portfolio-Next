@@ -60,10 +60,10 @@ function Stack() {
     return () => clearInterval(timer);
   }, [stackItems.length]);
 
-  // Función para obtener la URL del ícono con color
+  // Función para obtener la URL local del ícono con color
   const getIconUrl = (name: string, color: string): string => {
     const iconName = name.toLowerCase();
-    return `https://cdn.simpleicons.org/${iconName}/${color}?viewbox=auto`;
+    return `/icons/${iconName}-${color}.svg`;
   };
 
   return (
@@ -101,8 +101,9 @@ function Stack() {
                 className="w-6 h-6 object-contain group-hover:scale-110 transition-transform duration-300"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  // Fallback sin color si hay error
-                  target.src = `https://cdn.simpleicons.org/${item.name.toLowerCase()}?viewbox=auto`;
+                  // Fallback al CDN si el ícono local no existe (p.ej. tecnología nueva)
+                  target.onerror = null;
+                  target.src = `https://cdn.simpleicons.org/${item.name.toLowerCase()}/${item.color}?viewbox=auto`;
                 }}
               />
 

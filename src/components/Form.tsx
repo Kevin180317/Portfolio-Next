@@ -21,6 +21,7 @@ function Form() {
   const { Lang } = useLanguage();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [company, setCompany] = useState(""); // honeypot: debe quedar vacío
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { ref, visible } = useScrollReveal<HTMLDivElement>();
 
@@ -35,7 +36,12 @@ function Form() {
       const res = await fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, message, lang: Lang ? "en" : "es" }),
+        body: JSON.stringify({
+          email,
+          message,
+          lang: Lang ? "en" : "es",
+          company,
+        }),
       });
 
       if (res.ok) {
@@ -109,6 +115,20 @@ function Form() {
           {/* Form card */}
           <div className="bg-gray-900/40 border border-gray-700 rounded-xl p-6 mb-6">
             <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Honeypot anti-spam: oculto para humanos, los bots suelen rellenarlo */}
+              <div className="absolute -left-[9999px]" aria-hidden="true">
+                <label htmlFor="company">Company</label>
+                <input
+                  id="company"
+                  name="company"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                />
+              </div>
+
               <div className="space-y-1.5">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-300">
                   {Lang ? "Email" : "Correo electrónico"}

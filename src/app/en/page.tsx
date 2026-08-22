@@ -8,6 +8,7 @@ import Stack from "@/components/Stack";
 import TestimonialsPreview from "@/components/TestimonialsPreview";
 import ExperiencePreview from "@/components/ExperiencePreview";
 import Certifications from "@/components/Certifications";
+import FAQ from "@/components/FAQ";
 import { projectsEN, projectsES } from "@/app/data/projectsList";
 import { useLanguage } from "@/app/context/LanguageContext";
 
@@ -24,6 +25,7 @@ function Page() {
       <ExperiencePreview />
       <TestimonialsPreview />
       <Certifications />
+      <FAQ />
     </main>
   );
 }

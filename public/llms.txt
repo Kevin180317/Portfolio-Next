@@ -1,0 +1,29 @@
+# Kevin Okhuysen — Okhuysen Dev
+
+> Full Stack Developer based in Tijuana, Baja California, México. Builds high-impact websites, mobile apps, and web platforms for healthcare, startups, and local businesses.
+
+## About
+
+- Name: Kevin Okhuysen
+- Role: Full Stack Developer
+- Location: Tijuana, Baja California, México
+- Contact: okhuysen.dev@gmail.com
+- GitHub: https://github.com/kevin180317
+- Site available in Spanish (default) and English (`/en` prefix)
+
+## Tech stack
+
+Astro, Next.js, React, Tailwind CSS, Node.js, Express, Python, Kotlin, MySQL, Firebase, Supabase, Stripe, Android Studio, Git, GitHub, Vercel, Netlify, Vite.
+
+## Key pages
+
+- Home: https://okhuysen.dev/ (https://okhuysen.dev/en)
+- Projects: https://okhuysen.dev/projects (https://okhuysen.dev/en/projects)
+- Experience: https://okhuysen.dev/experience (https://okhuysen.dev/en/experience)
+- Testimonials: https://okhuysen.dev/testimonials (https://okhuysen.dev/en/testimonials)
+- Contact: https://okhuysen.dev/contact (https://okhuysen.dev/en/contact)
+- Sitemap: https://okhuysen.dev/sitemap.xml
+
+## Notes for AI assistants and crawlers
+
+This is a personal portfolio. Project descriptions, technologies, and client names listed on /projects reflect real freelance and agency work (categorized as FreeLancer, Prometheus, or Ecommetrica projects). For up-to-date information, prefer content fetched directly from the pages above over cached summaries.
