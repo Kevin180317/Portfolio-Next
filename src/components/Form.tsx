@@ -1,9 +1,30 @@
 "use client";
 
 import { useLanguage } from "@/app/context/LanguageContext";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        container: HTMLElement,
+        options: {
+          sitekey: string;
+          callback: (token: string) => void;
+          "expired-callback"?: () => void;
+          "error-callback"?: () => void;
+        }
+      ) => string;
+      reset: (widgetId?: string) => void;
+      remove: (widgetId: string) => void;
+    };
+    onTurnstileLoad?: () => void;
+  }
+}
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const socialLinks = [
   {
@@ -23,10 +44,59 @@ function Form() {
   const [message, setMessage] = useState("");
   const [company, setCompany] = useState(""); // honeypot: debe quedar vacío
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
   const { ref, visible } = useScrollReveal<HTMLDivElement>();
+
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetId = useRef<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY) return;
+
+    const renderWidget = () => {
+      if (!turnstileContainerRef.current || !window.turnstile) return;
+      turnstileWidgetId.current = window.turnstile.render(
+        turnstileContainerRef.current,
+        {
+          sitekey: TURNSTILE_SITE_KEY,
+          callback: (token: string) => setTurnstileToken(token),
+          "expired-callback": () => setTurnstileToken(""),
+          "error-callback": () => setTurnstileToken(""),
+        }
+      );
+    };
+
+    if (window.turnstile) {
+      renderWidget();
+    } else {
+      window.onTurnstileLoad = renderWidget;
+      const script = document.createElement("script");
+      script.src =
+        "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad";
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+
+    return () => {
+      if (turnstileWidgetId.current && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetId.current);
+      }
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      toast.error(
+        Lang
+          ? "Please complete the verification challenge."
+          : "Por favor completa la verificación."
+      );
+      return;
+    }
+
     setIsSubmitting(true);
     const loadingToast = toast.loading(
       Lang ? "Sending message..." : "Enviando mensaje..."
@@ -41,6 +111,7 @@ function Form() {
           message,
           lang: Lang ? "en" : "es",
           company,
+          turnstileToken,
         }),
       });
 
@@ -68,6 +139,10 @@ function Form() {
       );
     } finally {
       setIsSubmitting(false);
+      setTurnstileToken("");
+      if (turnstileWidgetId.current && window.turnstile) {
+        window.turnstile.reset(turnstileWidgetId.current);
+      }
     }
   };
 
@@ -167,9 +242,13 @@ function Form() {
                 />
               </div>
 
+              {TURNSTILE_SITE_KEY && (
+                <div ref={turnstileContainerRef} className="flex justify-center" />
+              )}
+
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
                 className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-500/40
                          text-white font-medium py-2.5 px-4 rounded-lg text-sm
                          transition-all duration-200 disabled:cursor-not-allowed hover:scale-[1.02]

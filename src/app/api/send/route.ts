@@ -9,7 +9,38 @@ const contactSchema = z.object({
   // Honeypot: campo oculto que solo un bot llenaría. Si viene con contenido,
   // respondemos éxito sin enviar el correo.
   company: z.string().optional(),
+  turnstileToken: z.string().min(1).max(2048).optional(),
 });
+
+async function verifyTurnstileToken(token: string, remoteip: string) {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) {
+    console.error("TURNSTILE_SECRET_KEY no está configurada.");
+    return false;
+  }
+
+  try {
+    const res = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        signal: AbortSignal.timeout(10_000),
+        body: new URLSearchParams({
+          secret,
+          response: token,
+          remoteip,
+        }),
+      }
+    );
+    if (!res.ok) return false;
+    const data = await res.json();
+    return data.success === true;
+  } catch (error) {
+    console.error("Error verificando Turnstile:", error);
+    return false;
+  }
+}
 
 function escapeHtml(value: string) {
   return value
@@ -32,11 +63,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { email, message, lang, company } = parsed.data;
+    const { email, message, lang, company, turnstileToken } = parsed.data;
 
     // Honeypot activado: respondemos éxito silenciosamente, sin enviar correo.
     if (company) {
       return NextResponse.json({ success: true });
+    }
+
+    if (process.env.TURNSTILE_SECRET_KEY) {
+      if (!turnstileToken) {
+        return NextResponse.json(
+          { success: false, message: "Verificación requerida." },
+          { status: 400 }
+        );
+      }
+
+      const remoteip = req.headers.get("x-forwarded-for") ?? "";
+      const isHuman = await verifyTurnstileToken(turnstileToken, remoteip);
+      if (!isHuman) {
+        return NextResponse.json(
+          { success: false, message: "Verificación fallida." },
+          { status: 403 }
+        );
+      }
     }
 
     if (!process.env.RESEND_API_KEY) {
