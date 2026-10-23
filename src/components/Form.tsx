@@ -1,9 +1,9 @@
 "use client";
 
-import { useLanguage } from "@/app/context/LanguageContext";
 import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import type { Lang } from "@/lib/i18n";
+import { ArrowUpRight } from "@/components/ui/Icons";
 
 declare global {
   interface Window {
@@ -26,26 +26,54 @@ declare global {
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
-const socialLinks = [
-  {
-    label: "GitHub",
-    href: "https://github.com/kevin180317",
-    icon: (
-      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-      </svg>
-    ),
+const copy = {
+  es: {
+    name: "Nombre",
+    namePh: "Tu nombre",
+    email: "Correo electrónico",
+    emailPh: "tu@empresa.com",
+    message: "Cuéntame sobre tu proyecto",
+    messagePh: "Qué hace tu negocio, qué necesitas y para cuándo…",
+    send: "Enviar mensaje",
+    sending: "Enviando…",
+    verify: "Por favor completa la verificación.",
+    loading: "Enviando mensaje…",
+    success: "¡Mensaje enviado! Te responderé pronto.",
+    error: "Error al enviar el mensaje",
+    network: "Error de conexión. Inténtalo de nuevo.",
+    optional: "opcional",
   },
-];
+  en: {
+    name: "Name",
+    namePh: "Your name",
+    email: "Email",
+    emailPh: "you@company.com",
+    message: "Tell me about your project",
+    messagePh: "What your business does, what you need, and when…",
+    send: "Send message",
+    sending: "Sending…",
+    verify: "Please complete the verification challenge.",
+    loading: "Sending message…",
+    success: "Message sent! I'll get back to you soon.",
+    error: "Error sending message",
+    network: "Connection error. Please try again.",
+    optional: "optional",
+  },
+};
 
-function Form() {
-  const { Lang } = useLanguage();
+const fieldClass =
+  "w-full border-0 border-b border-line-strong bg-transparent px-0 py-3 text-lg text-fg placeholder:text-subtle transition-colors duration-200 focus:border-accent focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50";
+
+const labelClass = "font-mono text-xs uppercase tracking-[0.2em] text-subtle";
+
+function Form({ lang }: { lang: Lang }) {
+  const c = copy[lang];
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [company, setCompany] = useState(""); // honeypot: debe quedar vacío
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
-  const { ref, visible } = useScrollReveal<HTMLDivElement>();
 
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
   const turnstileWidgetId = useRef<string | undefined>(undefined);
@@ -89,54 +117,38 @@ function Form() {
     e.preventDefault();
 
     if (TURNSTILE_SITE_KEY && !turnstileToken) {
-      toast.error(
-        Lang
-          ? "Please complete the verification challenge."
-          : "Por favor completa la verificación."
-      );
+      toast.error(c.verify);
       return;
     }
 
     setIsSubmitting(true);
-    const loadingToast = toast.loading(
-      Lang ? "Sending message..." : "Enviando mensaje..."
-    );
+    const loadingToast = toast.loading(c.loading);
 
     try {
       const res = await fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          name,
           email,
           message,
-          lang: Lang ? "en" : "es",
+          lang,
           company,
           turnstileToken,
         }),
       });
 
       if (res.ok) {
-        toast.success(
-          Lang ? "Message sent successfully!" : "¡Mensaje enviado correctamente!",
-          { id: loadingToast, duration: 4000 }
-        );
+        toast.success(c.success, { id: loadingToast, duration: 4000 });
+        setName("");
         setEmail("");
         setMessage("");
       } else {
         const errorData = await res.json().catch(() => ({}));
-        toast.error(
-          errorData.message ||
-            (Lang ? "Error sending message" : "Error al enviar el mensaje"),
-          { id: loadingToast, duration: 5000 }
-        );
+        toast.error(errorData.message || c.error, { id: loadingToast, duration: 5000 });
       }
     } catch {
-      toast.error(
-        Lang
-          ? "Connection error. Please try again."
-          : "Error de conexión. Inténtalo de nuevo.",
-        { id: loadingToast, duration: 5000 }
-      );
+      toast.error(c.network, { id: loadingToast, duration: 5000 });
     } finally {
       setIsSubmitting(false);
       setTurnstileToken("");
@@ -153,152 +165,108 @@ function Form() {
         toastOptions={{
           duration: 4000,
           style: {
-            background: "#1f2937",
-            color: "#f9fafb",
-            border: "1px solid #374151",
-            borderRadius: "8px",
+            background: "#131316",
+            color: "#f4f4f5",
+            border: "1px solid #26262b",
+            borderRadius: "999px",
             fontSize: "14px",
           },
-          success: { iconTheme: { primary: "#f97316", secondary: "#f9fafb" } },
-          error: { iconTheme: { primary: "#ef4444", secondary: "#f9fafb" } },
-          loading: { iconTheme: { primary: "#f97316", secondary: "#f9fafb" } },
+          success: { iconTheme: { primary: "#ff5b1f", secondary: "#ffffff" } },
+          error: { iconTheme: { primary: "#ef4444", secondary: "#f4f4f5" } },
+          loading: { iconTheme: { primary: "#ff5b1f", secondary: "#f4f4f5" } },
         }}
       />
 
-      <div
-        ref={ref}
-        className={`flex items-center justify-center px-6 py-16 transition-all duration-700 ${
-          visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+      <form
+        onSubmit={handleSubmit}
+        className="relative space-y-10 rounded-xl border border-line bg-surface p-6 md:p-10"
       >
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="mb-8">
-            <p className="text-orange-500 text-sm tracking-widest uppercase mb-3">
-              {Lang ? "Get in touch" : "Ponte en contacto"}
-            </p>
-            <h1 className="text-3xl font-bold text-white mb-3">
-              {Lang ? "Let's work together" : "Trabajemos juntos"}
-            </h1>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              {Lang
-                ? "Got a project in mind? Send me a message and let's make it happen."
-                : "¿Tienes un proyecto en mente? Envíame un mensaje y hagámoslo realidad."}
-            </p>
+        {/* Honeypot anti-spam: oculto para humanos, los bots suelen rellenarlo */}
+        <div className="absolute -left-[9999px]" aria-hidden="true">
+          <label htmlFor="company">Company</label>
+          <input
+            id="company"
+            name="company"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+          />
+        </div>
+
+        <div className="grid gap-10 sm:grid-cols-2">
+          <div>
+            <label htmlFor="name" className={labelClass}>
+              {c.name} <span className="normal-case tracking-normal">({c.optional})</span>
+            </label>
+            <input
+              id="name"
+              type="text"
+              autoComplete="name"
+              placeholder={c.namePh}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              maxLength={120}
+              disabled={isSubmitting}
+              className={fieldClass}
+            />
           </div>
-
-          {/* Form card */}
-          <div className="bg-gray-900/40 border border-gray-700 rounded-xl p-6 mb-6">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Honeypot anti-spam: oculto para humanos, los bots suelen rellenarlo */}
-              <div className="absolute -left-[9999px]" aria-hidden="true">
-                <label htmlFor="company">Company</label>
-                <input
-                  id="company"
-                  name="company"
-                  type="text"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={company}
-                  onChange={(e) => setCompany(e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-                  {Lang ? "Email" : "Correo electrónico"}
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder={Lang ? "your@email.com" : "tu@email.com"}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={isSubmitting}
-                  className="w-full px-3 py-2.5 bg-gray-950/60 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-600
-                           focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500
-                           disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300">
-                  {Lang ? "Message" : "Mensaje"}
-                </label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  placeholder={
-                    Lang ? "Tell me about your project..." : "Cuéntame sobre tu proyecto..."
-                  }
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  required
-                  disabled={isSubmitting}
-                  className="w-full px-3 py-2.5 bg-gray-950/60 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-600
-                           focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500
-                           disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 resize-none"
-                />
-              </div>
-
-              {TURNSTILE_SITE_KEY && (
-                <div ref={turnstileContainerRef} className="flex justify-center" />
-              )}
-
-              <button
-                type="submit"
-                disabled={isSubmitting || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
-                className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-500/40
-                         text-white font-medium py-2.5 px-4 rounded-lg text-sm
-                         transition-all duration-200 disabled:cursor-not-allowed hover:scale-[1.02]
-                         focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:ring-offset-2 focus:ring-offset-gray-900"
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    {Lang ? "Sending..." : "Enviando..."}
-                  </span>
-                ) : Lang ? (
-                  "Send Message"
-                ) : (
-                  "Enviar mensaje"
-                )}
-              </button>
-            </form>
-          </div>
-
-          {/* Alternative contact */}
-          <div className="flex flex-col items-center gap-4">
-            <p className="text-xs text-gray-600">
-              {Lang ? "or reach me directly" : "o contáctame directamente"}
-            </p>
-            <div className="flex items-center gap-3">
-              <a
-                href="mailto:okhuysen.dev@gmail.com"
-                className="flex items-center gap-2 text-sm text-gray-400 hover:text-orange-400 transition-colors duration-200 px-3 py-2 border border-gray-800 rounded-lg hover:border-orange-500/40"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                okhuysen.dev@gmail.com
-              </a>
-              {socialLinks.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors duration-200 px-3 py-2 border border-gray-800 rounded-lg hover:border-orange-500/40"
-                >
-                  {s.icon}
-                  {s.label}
-                </a>
-              ))}
-            </div>
+          <div>
+            <label htmlFor="email" className={labelClass}>
+              {c.email}
+            </label>
+            <input
+              id="email"
+              type="email"
+              autoComplete="email"
+              placeholder={c.emailPh}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={isSubmitting}
+              className={fieldClass}
+            />
           </div>
         </div>
-      </div>
+
+        <div>
+          <label htmlFor="message" className={labelClass}>
+            {c.message}
+          </label>
+          <textarea
+            id="message"
+            rows={5}
+            placeholder={c.messagePh}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+            maxLength={5000}
+            disabled={isSubmitting}
+            className={`${fieldClass} resize-none`}
+          />
+        </div>
+
+        {TURNSTILE_SITE_KEY && <div ref={turnstileContainerRef} />}
+
+        <button
+          type="submit"
+          disabled={isSubmitting || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+          className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent-fill px-6 py-4 text-base font-medium text-white transition-colors duration-300 hover:bg-accent-fill-hover disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
+        >
+          {isSubmitting ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+              {c.sending}
+            </>
+          ) : (
+            <>
+              {c.send}
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </>
+          )}
+        </button>
+      </form>
     </>
   );
 }

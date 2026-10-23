@@ -1,18 +1,14 @@
-"use client";
-import Projects from "@/components/Projects";
-import React from "react";
-import { projectsEnglish, projectsSpanish } from "@/app/data/projectListComplete";
-import { useLanguage } from "@/app/context/LanguageContext";
+import type { Metadata } from "next";
+import WorkPage from "@/components/WorkPage";
+import { pageMetadata } from "@/lib/seo";
+import { pageSeo } from "@/lib/pages";
 
-function Page() {
-  const { Lang } = useLanguage();
-  const projects = Lang ? projectsEnglish : projectsSpanish;
+export const metadata: Metadata = pageMetadata({
+  lang: "es",
+  path: "/projects",
+  ...pageSeo.projects.es,
+});
 
-  return (
-    <main className="relative z-10 pt-4">
-      <Projects projects={projects} />
-    </main>
-  );
+export default function Page() {
+  return <WorkPage lang="es" />;
 }
-
-export default Page;

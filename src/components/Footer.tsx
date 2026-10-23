@@ -1,75 +1,139 @@
 "use client";
-import { useLanguage } from "@/app/context/LanguageContext";
-import Link from "next/link";
-import React from "react";
 
-const navLinks = [
-  { labelES: "Inicio", labelEN: "Home", path: "/" },
-  { labelES: "Proyectos", labelEN: "Projects", path: "/projects" },
-  { labelES: "Testimonios", labelEN: "Testimonials", path: "/testimonials" },
-  { labelES: "Contacto", labelEN: "Contact", path: "/contact" },
-];
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
+import { useLanguage } from "@/app/context/LanguageContext";
+import { CONTACT_EMAIL, GITHUB_URL, localePath } from "@/lib/i18n";
+import Container from "@/components/ui/Container";
+import { ArrowUpRight } from "@/components/ui/Icons";
+import RevealText from "@/components/ui/RevealText";
+import Reveal from "@/components/ui/Reveal";
+
+const copy = {
+  es: {
+    eyebrow: "¿Tienes un proyecto en mente?",
+    title: "Construyamos algo que haga crecer tu negocio.",
+    cta: "Iniciar proyecto",
+    nav: "Navegación",
+    contact: "Contacto",
+    links: [
+      { label: "Inicio", path: "/" },
+      { label: "Trabajo", path: "/projects" },
+      { label: "Servicios", path: "/#services" },
+      { label: "Experiencia", path: "/experience" },
+      { label: "Testimonios", path: "/testimonials" },
+      { label: "Contacto", path: "/contact" },
+    ],
+    location: "Tijuana, Baja California, México",
+    rights: "Todos los derechos reservados.",
+    cv: "Descargar CV",
+  },
+  en: {
+    eyebrow: "Have a project in mind?",
+    title: "Let's build something that grows your business.",
+    cta: "Start a project",
+    nav: "Navigation",
+    contact: "Contact",
+    links: [
+      { label: "Home", path: "/" },
+      { label: "Work", path: "/projects" },
+      { label: "Services", path: "/#services" },
+      { label: "Experience", path: "/experience" },
+      { label: "Testimonials", path: "/testimonials" },
+      { label: "Contact", path: "/contact" },
+    ],
+    location: "Tijuana, Baja California, Mexico",
+    rights: "All rights reserved.",
+    cv: "Download CV",
+  },
+};
 
 function Footer() {
-  const { Lang } = useLanguage();
+  const { lang } = useLanguage();
+  const pathname = usePathname();
+  const c = copy[lang];
   const year = new Date().getFullYear();
+  const isContact = pathname.replace(/^\/en/, "") === "/contact";
 
   return (
-    <footer className="border-t border-gray-800 mt-16 px-6 py-10">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-8 mb-8">
-          {/* Brand */}
-          <div className="space-y-2">
-            <p className="text-white font-semibold tracking-wide">OKHUYSEN DEV</p>
-            <p className="text-gray-500 text-sm max-w-xs">
-              {Lang
-                ? "Building fast, scalable digital products."
-                : "Construyendo productos digitales rápidos y escalables."}
+    <footer className="mt-24 border-t border-line md:mt-32">
+      <Container>
+        {!isContact && (
+          <div className="border-b border-line py-20 md:py-28">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-subtle">
+              {c.eyebrow}
             </p>
-            <a
-              href="https://github.com/kevin180317"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-gray-500 hover:text-white transition-colors duration-200 text-sm mt-1"
+            <Link
+              href={localePath(lang, "/contact")}
+              className="group mt-6 flex flex-col gap-8 md:flex-row md:items-end md:justify-between"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-              </svg>
-              GitHub
-            </a>
+              <span className="max-w-4xl text-4xl font-medium leading-[1.02] tracking-tight text-balance transition-colors duration-500 group-hover:text-accent md:text-7xl">
+                <RevealText text={c.title} />
+              </span>
+              <span className="relative inline-flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-accent text-white transition-transform duration-700 ease-out-expo group-hover:scale-110 md:h-32 md:w-32">
+                <span className="absolute inset-0 rounded-full bg-fg transition-transform duration-700 ease-out-expo [transform:scale(0)] group-hover:[transform:scale(1)]" />
+                <ArrowUpRight className="relative h-8 w-8 transition-[transform,color] duration-700 ease-out-expo group-hover:rotate-45 group-hover:text-bg md:h-11 md:w-11" />
+                <span className="sr-only">{c.cta}</span>
+              </span>
+            </Link>
+          </div>
+        )}
+
+        <Reveal>
+          <div className="grid gap-10 py-14 sm:grid-cols-2 md:grid-cols-4">
+            <div className="md:col-span-2">
+              <p className="text-lg font-medium tracking-tight">Kevin Okhuysen</p>
+              <p className="mt-2 max-w-xs text-sm text-muted">{c.location}</p>
+            </div>
+
+            <nav aria-label={c.nav}>
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-subtle">{c.nav}</p>
+              <ul className="mt-4 space-y-2.5">
+                {c.links.map((link) => (
+                  <li key={link.path}>
+                    <Link
+                      href={localePath(lang, link.path)}
+                      className="text-sm text-muted transition-colors hover:text-fg"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-subtle">{c.contact}</p>
+              <ul className="mt-4 space-y-2.5 text-sm">
+                <li>
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="text-muted transition-colors hover:text-fg">
+                    {CONTACT_EMAIL}
+                  </a>
+                </li>
+                <li>
+                  <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted transition-colors hover:text-fg">
+                    GitHub <ArrowUpRight className="h-3 w-3" />
+                  </a>
+                </li>
+                <li>
+                  <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted transition-colors hover:text-fg">
+                    {c.cv} <ArrowUpRight className="h-3 w-3" />
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
 
-          {/* Nav links */}
-          <nav>
-            <p className="text-gray-600 text-xs uppercase tracking-widest mb-3">
-              {Lang ? "Navigation" : "Navegación"}
-            </p>
-            <ul className="space-y-2">
-              {navLinks.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    href={Lang ? `/en${link.path}` : link.path}
-                    className="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200"
-                  >
-                    {Lang ? link.labelEN : link.labelES}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
+        </Reveal>
 
-        {/* Bottom bar */}
-        <div className="border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-gray-600 text-xs">
-            © {year} Kevin Okhuysen.{" "}
-            {Lang ? "All rights reserved." : "Todos los derechos reservados."}
+        <div className="flex flex-col gap-2 border-t border-line py-6 text-xs text-subtle sm:flex-row sm:justify-between">
+          <p>
+            © {year} Kevin Okhuysen. {c.rights}
           </p>
-          <p className="text-gray-700 text-xs">
-            {Lang ? "Built with" : "Hecho con"} Next.js · Tailwind CSS
-          </p>
+          <p className="font-mono">okhuysen.dev</p>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

@@ -1,1 +1,111 @@
 @import "tailwindcss";
+
+@theme {
+  --color-bg: #0a0a0b;
+  --color-surface: #131316;
+  --color-surface-2: #1b1b20;
+  --color-line: #26262b;
+  --color-line-strong: #3a3a41;
+  --color-fg: #f4f4f5;
+  --color-muted: #a1a1aa;
+  --color-subtle: #71717a;
+  --color-accent: #ff5b1f;
+  --color-accent-hover: #ff7a45;
+  /* Rellenos con texto blanco: naranja más oscuro para cumplir WCAG AA (4.5:1) */
+  --color-accent-fill: #cc4410; /* blanco 4.77:1 */
+  --color-accent-fill-hover: #b83c0d; /* blanco 5.69:1 */
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-fill);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+/* Fondo del hero: retícula con máscara radial */
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+}
+
+/* Brillo que sigue al cursor (ver components/ui/Spotlight.tsx) */
+.spotlight {
+  background: radial-gradient(
+    420px circle at var(--x, 50%) var(--y, 50%),
+    rgb(255 91 31 / 0.13),
+    transparent 60%
+  );
+}
+
+.spotlight-border {
+  background: radial-gradient(
+    260px circle at var(--x, 50%) var(--y, 50%),
+    rgb(255 91 31 / 0.55),
+    transparent 70%
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  padding: 1px;
+}
+
+/* Carruseles horizontales en móvil */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.fade-x {
+  mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,19 +1,15 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { M_PLUS_1_Code } from "next/font/google";
+import type { Viewport } from "next";
 import { headers } from "next/headers";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import { LanguageProvider } from "@/app/context/LanguageContext";
 import Footer from "@/components/Footer";
-import { GeistPixelCircle } from "geist/font/pixel";
-const mPlus1Code = M_PLUS_1_Code({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-m-plus-1-code",
-  display: "swap",
-});
+import MotionProvider from "@/components/ui/MotionProvider";
 
 const TECH_STACK = [
   "Astro",
@@ -37,6 +33,8 @@ const personJsonLd = {
   name: "Kevin Okhuysen",
   url: "https://okhuysen.dev",
   jobTitle: "Full Stack Developer",
+  description:
+    "Full Stack Developer in Tijuana building websites, web apps, and mobile apps for healthcare, dental, industrial, and service businesses.",
   email: "okhuysen.dev@gmail.com",
   sameAs: ["https://github.com/kevin180317"],
   knowsAbout: TECH_STACK,
@@ -57,6 +55,10 @@ const websiteJsonLd = {
   author: { "@type": "Person", name: "Kevin Okhuysen" },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#0a0a0b",
+};
+
 async function getIsEnglish() {
   const headersList = await headers();
   const pathname = headersList.get("x-pathname") ?? "/";
@@ -67,14 +69,17 @@ export async function generateMetadata(): Promise<Metadata> {
   const isEnglish = await getIsEnglish();
 
   const title = isEnglish
-    ? "Kevin Okhuysen - Modern Web & App Development"
-    : "Kevin Okhuysen - Desarrollo Web y Apps Modernas";
+    ? "Kevin Okhuysen — Websites, Web Apps & Mobile Apps"
+    : "Kevin Okhuysen — Sitios Web, Web Apps y Apps Móviles";
   const description = isEnglish
     ? "Portfolio of Kevin Okhuysen, a developer specialized in building high-impact websites and mobile apps. Discover innovative projects, professional experience, and tech solutions for the healthcare sector and more."
     : "Portafolio de Kevin Okhuysen, desarrollador especializado en crear sitios web y aplicaciones móviles de alto impacto. Descubre proyectos innovadores, experiencia profesional y soluciones tecnológicas para el sector salud y más.";
 
   return {
-    title,
+    title: {
+      default: title,
+      template: "%s — Kevin Okhuysen",
+    },
     description,
     keywords: isEnglish
       ? ["web development", "mobile apps", "healthcare sector", "Tijuana", "technology"]
@@ -115,8 +120,17 @@ export default async function RootLayout({
   const isEnglish = await getIsEnglish();
 
   return (
-    <html lang={isEnglish ? "en" : "es"} className={GeistPixelCircle.className}>
-      <body className="max-w-3xl text-white relative h-full w-full bg-slate-950 mx-auto bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px]">
+    <html
+      lang={isEnglish ? "en" : "es"}
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
+    >
+      <body className="min-h-screen bg-bg font-sans text-fg antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-accent-fill focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
+        >
+          {isEnglish ? "Skip to content" : "Saltar al contenido"}
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
@@ -126,11 +140,13 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
         <LanguageProvider>
-          <Nav />
-          {children}
+          <MotionProvider>
+            <Nav />
+            {children}
+            <Footer />
+          </MotionProvider>
           <Analytics />
           <SpeedInsights />
-          <Footer />
         </LanguageProvider>
       </body>
     </html>

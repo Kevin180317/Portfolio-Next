@@ -1,33 +1,15 @@
-"use client";
+import type { Metadata } from "next";
+import HomePage from "@/components/home/HomePage";
+import { pageMetadata } from "@/lib/seo";
 
-import React from "react";
-import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
-import Stats from "@/components/Stats";
-import Stack from "@/components/Stack";
-import TestimonialsPreview from "@/components/TestimonialsPreview";
-import ExperiencePreview from "@/components/ExperiencePreview";
-import Certifications from "@/components/Certifications";
-import FAQ from "@/components/FAQ";
-import { projectsEN, projectsES } from "@/app/data/projectsList";
-import { useLanguage } from "@/app/context/LanguageContext";
+export const metadata: Metadata = pageMetadata({
+  lang: "en",
+  path: "/",
+  ogTitle: "Kevin Okhuysen — Websites, Web Apps & Mobile Apps",
+  description:
+    "Kevin Okhuysen, full stack developer in Tijuana. Websites, web apps, and mobile apps for clinics, dental practices, industrial, and service businesses.",
+});
 
-function Page() {
-  const { Lang } = useLanguage();
-  const projects = Lang ? projectsEN : projectsES;
-
-  return (
-    <main className="relative z-10">
-      <Hero />
-      <Stats />
-      <Stack />
-      <Projects projects={projects} />
-      <ExperiencePreview />
-      <TestimonialsPreview />
-      <Certifications />
-      <FAQ />
-    </main>
-  );
+export default function Page() {
+  return <HomePage lang="en" />;
 }
-
-export default Page;

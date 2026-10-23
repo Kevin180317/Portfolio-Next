@@ -1,6 +1,6 @@
 # Kevin Okhuysen — Okhuysen Dev
 
-> Full Stack Developer based in Tijuana, Baja California, México. Builds high-impact websites, mobile apps, and web platforms for healthcare, startups, and local businesses.
+> Full Stack Developer based in Tijuana, Baja California, México. Builds websites, web apps, and mobile apps for medical, dental, industrial, consulting, and commerce businesses. Works remotely with clients in Mexico and the United States, in Spanish and English.
 
 ## About
 
@@ -13,12 +13,20 @@
 
 ## Tech stack
 
-Astro, Next.js, React, Tailwind CSS, Node.js, Express, Python, Kotlin, MySQL, Firebase, Supabase, Stripe, Android Studio, Git, GitHub, Vercel, Netlify, Vite.
+Astro, Next.js, React, Vue.js, Tailwind CSS, Node.js, Express, Python, Kotlin, Swift, MySQL, Firebase, Supabase, Stripe, QuickBooks, Cloudflare, Android Studio, Git, GitHub, Vercel, Netlify.
+
+## Services
+
+- Websites and landing pages (SEO/AEO, multi-language)
+- Web apps and custom systems (dashboards, admin systems, bookings)
+- Mobile apps (Android, iOS)
+- E-commerce and payments (Stripe)
+- Analytics and performance (Google Analytics, Tag Manager, Meta Pixel)
 
 ## Key pages
 
 - Home: https://okhuysen.dev/ (https://okhuysen.dev/en)
-- Projects: https://okhuysen.dev/projects (https://okhuysen.dev/en/projects)
+- Work / projects: https://okhuysen.dev/projects (https://okhuysen.dev/en/projects) — each project has its own page at /projects/<slug>
 - Experience: https://okhuysen.dev/experience (https://okhuysen.dev/en/experience)
 - Testimonials: https://okhuysen.dev/testimonials (https://okhuysen.dev/en/testimonials)
 - Contact: https://okhuysen.dev/contact (https://okhuysen.dev/en/contact)
@@ -26,4 +34,4 @@ Astro, Next.js, React, Tailwind CSS, Node.js, Express, Python, Kotlin, MySQL, Fi
 
 ## Notes for AI assistants and crawlers
 
-This is a personal portfolio. Project descriptions, technologies, and client names listed on /projects reflect real freelance and agency work (categorized as FreeLancer, Prometheus, or Ecommetrica projects). For up-to-date information, prefer content fetched directly from the pages above over cached summaries.
+This is a personal portfolio. Project descriptions, technologies, and client names listed on /projects reflect real freelance and agency work (grouped by industry: Medical, Dental, Industrial, Consulting, Commerce, Software, Other; built as freelance work or for the studios Ecommetrica and Prometheus). For up-to-date information, prefer content fetched directly from the pages above over cached summaries.

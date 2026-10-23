@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useLanguage } from "@/app/context/LanguageContext";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import React, { useEffect, useState } from "react";
+import type { Lang } from "@/lib/i18n";
+import { Eyebrow } from "@/components/ui/SectionHeader";
+import { ArrowUpRight } from "@/components/ui/Icons";
 
 interface Certification {
   title: string;
@@ -20,6 +21,11 @@ const certifications: Certification[] = [
   },
 ];
 
+const copy = {
+  es: { label: "Certificaciones", preview: "Vista previa", download: "Descargar", close: "Cerrar" },
+  en: { label: "Certifications", preview: "Preview", download: "Download", close: "Close" },
+};
+
 function CertModal({
   cert,
   onClose,
@@ -27,8 +33,10 @@ function CertModal({
 }: {
   cert: Certification;
   onClose: () => void;
-  lang: boolean;
+  lang: Lang;
 }) {
+  const c = copy[lang];
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
@@ -41,182 +49,88 @@ function CertModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label={cert.title}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <div className="pointer-events-none absolute inset-0 bg-black/80 backdrop-blur-sm" />
 
-      {/* Modal */}
-      <div className="relative z-10 w-full max-w-4xl flex flex-col rounded-2xl border border-gray-700 bg-[#0f0f0f] shadow-2xl shadow-black/60 overflow-hidden max-h-[90vh]">
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-orange-500/10 rounded-lg border border-orange-500/20">
-              <svg
-                className="w-4 h-4 text-orange-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                />
-              </svg>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold text-sm">{cert.title}</h3>
-              <p className="text-gray-500 text-xs">
-                {cert.issuer} · {cert.date}
-              </p>
-            </div>
+      <div className="relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-xl border border-line bg-surface">
+        <div className="flex items-center justify-between gap-4 border-b border-line px-6 py-4">
+          <div>
+            <h3 className="text-sm font-medium">{cert.title}</h3>
+            <p className="text-xs text-muted">
+              {cert.issuer} · {cert.date}
+            </p>
           </div>
-
           <div className="flex items-center gap-2">
             <a
               href={cert.pdfUrl}
               download
-              className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 hover:bg-orange-500/20 transition-all duration-200"
+              className="rounded-full border border-line-strong px-4 py-1.5 text-sm transition-colors hover:border-fg"
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                />
-              </svg>
-              {lang ? "Download" : "Descargar"}
+              {c.download}
             </a>
             <button
+              type="button"
               onClick={onClose}
-              className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-all duration-200"
-              aria-label="Close"
+              className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:text-fg"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              {c.close}
             </button>
           </div>
         </div>
-
-        {/* PDF */}
-        <div className="flex-1 bg-gray-950 min-h-0">
-          <iframe
-            src={cert.pdfUrl}
-            className="w-full h-[70vh]"
-            title={cert.title}
-          />
-        </div>
+        <iframe src={cert.pdfUrl} className="h-[70vh] w-full bg-bg" title={cert.title} />
       </div>
     </div>
   );
 }
 
-function Certifications() {
-  const { Lang } = useLanguage();
+function Certifications({ lang }: { lang: Lang }) {
+  const c = copy[lang];
   const [activeCert, setActiveCert] = useState<Certification | null>(null);
-  const { ref, visible } = useScrollReveal<HTMLElement>();
 
   return (
-    <section
-      ref={ref}
-      className={`py-16 px-6 transition-all duration-700 ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      }`}
-    >
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-white mb-2">
-          {Lang ? "Certifications" : "Certificaciones"}
-        </h2>
-        <p className="text-gray-400 mb-10">
-          {Lang
-            ? "Verified credentials and professional certifications."
-            : "Credenciales verificadas y certificaciones profesionales."}
-        </p>
-
-        <div className="grid gap-4">
-          {certifications.map((cert, i) => (
-            <div
-              key={i}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border border-gray-700 rounded-xl hover:border-orange-500 transition-all duration-300"
-            >
-              <div className="flex items-start gap-4">
-                <div className="mt-1 p-2 bg-orange-500/10 rounded-lg border border-orange-500/20">
-                  <svg
-                    className="w-5 h-5 text-orange-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">{cert.title}</h3>
-                  <p className="text-gray-400 text-sm">
-                    {cert.issuer} · {cert.date}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-3 flex-shrink-0">
-                <button
-                  onClick={() => setActiveCert(cert)}
-                  className="text-sm px-4 py-2 rounded-lg border border-gray-600 text-gray-300 hover:border-orange-500 hover:text-white transition-all duration-200"
-                >
-                  {Lang ? "Preview" : "Vista previa"}
-                </button>
-                <a
-                  href={cert.pdfUrl}
-                  download
-                  className="text-sm px-4 py-2 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 hover:bg-orange-500/20 transition-all duration-200"
-                >
-                  {Lang ? "Download" : "Descargar"}
-                </a>
-              </div>
+    <section className="mt-20">
+      <Eyebrow>{c.label}</Eyebrow>
+      <ul className="mt-6 border-b border-line">
+        {certifications.map((cert) => (
+          <li
+            key={cert.title}
+            className="grid gap-4 border-t border-line py-10 md:grid-cols-12 md:items-center md:gap-8"
+          >
+            <p className="font-mono text-xs uppercase tracking-[0.15em] text-subtle md:col-span-3">
+              {cert.date}
+            </p>
+            <div className="md:col-span-5">
+              <h3 className="text-xl font-medium tracking-tight md:text-2xl">{cert.title}</h3>
+              <p className="mt-1 text-accent">{cert.issuer}</p>
             </div>
-          ))}
-        </div>
-
-        <div className="mt-12 flex justify-center">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-px bg-gray-600"></div>
-            <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-            <div className="w-8 h-px bg-gray-600"></div>
-          </div>
-        </div>
-      </div>
+            <div className="flex gap-3 md:col-span-4 md:justify-end">
+              <button
+                type="button"
+                onClick={() => setActiveCert(cert)}
+                className="rounded-full border border-line-strong px-4 py-2 text-sm transition-colors hover:border-fg"
+              >
+                {c.preview}
+              </button>
+              <a
+                href={cert.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg"
+              >
+                PDF <ArrowUpRight className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          </li>
+        ))}
+      </ul>
 
       {activeCert && (
-        <CertModal
-          cert={activeCert}
-          onClose={() => setActiveCert(null)}
-          lang={Lang}
-        />
+        <CertModal cert={activeCert} onClose={() => setActiveCert(null)} lang={lang} />
       )}
     </section>
   );

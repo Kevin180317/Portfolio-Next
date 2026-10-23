@@ -2,14 +2,9 @@
 
 import React, { createContext, useContext } from "react";
 import { usePathname } from "next/navigation";
+import { langFromPath, type Lang } from "@/lib/i18n";
 
-interface LanguageContextType {
-  Lang: boolean; // true = inglés, false = español
-}
-
-const LanguageContext = createContext<LanguageContextType>({
-  Lang: false, // Valor por defecto
-});
+const LanguageContext = createContext<{ lang: Lang }>({ lang: "es" });
 
 export const LanguageProvider = ({
   children,
@@ -17,10 +12,10 @@ export const LanguageProvider = ({
   children: React.ReactNode;
 }) => {
   const pathname = usePathname();
-  const Lang = pathname.startsWith("/en");
+  const lang = langFromPath(pathname);
 
   return (
-    <LanguageContext.Provider value={{ Lang }}>
+    <LanguageContext.Provider value={{ lang }}>
       {children}
     </LanguageContext.Provider>
   );

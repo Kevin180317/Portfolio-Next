@@ -1,11 +1,14 @@
-import Form from "@/components/Form";
+import type { Metadata } from "next";
+import ContactPage from "@/components/ContactPage";
+import { pageMetadata } from "@/lib/seo";
+import { pageSeo } from "@/lib/pages";
 
-function Page() {
-  return (
-    <main className="relative z-10">
-      <Form />
-    </main>
-  );
+export const metadata: Metadata = pageMetadata({
+  lang: "es",
+  path: "/contact",
+  ...pageSeo.contact.es,
+});
+
+export default function Page() {
+  return <ContactPage lang="es" />;
 }
-
-export default Page;

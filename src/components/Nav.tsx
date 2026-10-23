@@ -1,202 +1,171 @@
 "use client";
 
-import { useLanguage } from "@/app/context/LanguageContext";
-import Logo from "@/assets/Logo";
 import Link from "next/link";
-import React, { useState, useCallback, useMemo } from "react";
 import { usePathname } from "next/navigation";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { m, useScroll, useSpring } from "framer-motion";
+import Logo from "@/assets/Logo";
+import { useLanguage } from "@/app/context/LanguageContext";
+import { localePath } from "@/lib/i18n";
+import { ArrowUpRight } from "@/components/ui/Icons";
+import { EASE_OUT_EXPO } from "@/components/ui/motion";
+import MobileMenu, { type MenuOrigin } from "@/components/MobileMenu";
+
+const copy = {
+  es: {
+    routes: [
+      { label: "Trabajo", path: "/projects" },
+      { label: "Servicios", path: "/#services" },
+      { label: "Experiencia", path: "/experience" },
+      { label: "Testimonios", path: "/testimonials" },
+    ],
+    cta: "Hablemos",
+    menu: "Menú",
+    menuLabel: "Abrir menú",
+    switchLabel: "Read in English",
+  },
+  en: {
+    routes: [
+      { label: "Work", path: "/projects" },
+      { label: "Services", path: "/#services" },
+      { label: "Experience", path: "/experience" },
+      { label: "Testimonials", path: "/testimonials" },
+    ],
+    cta: "Let's talk",
+    menu: "Menu",
+    menuLabel: "Open menu",
+    switchLabel: "Leer en español",
+  },
+};
 
 function Nav() {
-  const { Lang } = useLanguage();
+  const { lang } = useLanguage();
   const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const year = new Date().getFullYear();
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [origin, setOrigin] = useState<MenuOrigin>({ x: 0, y: 0 });
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const c = copy[lang];
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
 
-  // Memoizar el path limpio para evitar recálculos
-  const cleanPath = useMemo(
-    () => pathname.replace(/^\/en/, "") || "/",
-    [pathname]
-  );
+  const cleanPath = pathname.replace(/^\/en/, "") || "/";
+  const switchHref = lang === "en" ? cleanPath : localePath("en", cleanPath);
 
-  // Memoizar el toggle path
-  const toggleLangPath = useMemo(
-    () => (Lang ? cleanPath : `/en${pathname}`),
-    [Lang, cleanPath, pathname]
-  );
+  // Cierra el menú al navegar
+  useEffect(() => setOpen(false), [pathname]);
 
-  // Memoizar las rutas
-  const routes = useMemo(
-    () => [
-      { label: Lang ? "Home" : "Inicio", path: "/" },
-      { label: Lang ? "Projects" : "Proyectos", path: "/projects" },
-      { label: Lang ? "Contact" : "Contacto", path: "/contact" },
-      { label: Lang ? "Testimonials" : "Testimonios", path: "/testimonials" },
-      { label: Lang ? "Experience" : "Experiencia", path: "/experience" },
-    ],
-    [Lang]
-  );
-
-  // Función para alternar el menú
-  const toggleMenu = useCallback(() => {
-    setIsMenuOpen((prev) => !prev);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Función para cerrar el menú
-  const closeMenu = useCallback(() => {
-    setIsMenuOpen(false);
-  }, []);
+  const closeMenu = useCallback(() => setOpen(false), []);
 
-  // Clases para los enlaces con memoización
-  const getLinkClasses = useCallback(
-    (href: string) => {
-      const isActive = cleanPath === href;
-      return `hover:text-orange-500 hover:underline transition-all duration-300 ${
-        isActive ? "text-orange-500" : "text-white"
-      }`;
-    },
-    [cleanPath]
-  );
+  const openMenu = () => {
+    const rect = triggerRef.current?.getBoundingClientRect();
+    if (rect) setOrigin({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+    setOpen(true);
+  };
+
+  const isActive = (path: string) =>
+    !path.includes("#") && (cleanPath === path || cleanPath.startsWith(`${path}/`));
 
   return (
-    <nav className="relative">
-      <div className="flex justify-between items-center p-4">
-        {/* Logo */}
-        <div className="flex items-center space-x-4">
-          <Link href={Lang ? "/en" : "/"} onClick={closeMenu}>
-            <Logo className="w-16 h-16 text-black bg-white rounded-xl hover:scale-105 transition-transform duration-300" />
-          </Link>
-          <p>OKHUYSEN DEV</p>
-        </div>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:block">
-          <ul className="flex space-x-6">
-            {routes.map((route) => (
-              <li key={route.path}>
-                <Link
-                  href={Lang ? `/en${route.path}` : route.path}
-                  className={getLinkClasses(route.path)}
-                >
-                  {route.label}
-                </Link>
-              </li>
-            ))}
-            <li>
-              <Link
-                href={toggleLangPath}
-                className="hover:text-orange-500 transition-colors duration-300"
-              >
-                {Lang ? "ES" : "EN"}
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Hamburger Button */}
-        <button
-          onClick={toggleMenu}
-          className="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded"
-          aria-label="Toggle menu"
-          aria-expanded={isMenuOpen}
-        >
-          <span
-            className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-              isMenuOpen ? "rotate-45 translate-y-2" : ""
-            }`}
-          />
-          <span
-            className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-              isMenuOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-              isMenuOpen ? "-rotate-45 -translate-y-2" : ""
-            }`}
-          />
-        </button>
-      </div>
-
-      {/* Mobile Menu Overlay */}
-      <div
-        className={`md:hidden fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 ${
-          isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={closeMenu}
+    <m.header
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: EASE_OUT_EXPO }}
+      className={`sticky top-0 z-50 transition-colors duration-300 ${
+        scrolled
+          ? "border-b border-line bg-bg/80 backdrop-blur-xl"
+          : "border-b border-transparent"
+      }`}
+    >
+      <m.div
+        aria-hidden="true"
+        style={{ scaleX: progress }}
+        className="absolute inset-x-0 bottom-[-1px] h-px origin-left bg-accent"
       />
-
-      {/* Mobile Menu */}
-      <div
-        className={`md:hidden fixed top-0 right-0 h-full w-64 bg-gray-900 z-50 transform transition-transform duration-300 ease-in-out ${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {/* Close button */}
-        <button
-          onClick={closeMenu}
-          className="absolute top-4 right-4 text-white hover:text-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded p-2"
-          aria-label="Close menu"
+      <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 md:h-20 md:px-12">
+        <Link
+          href={localePath(lang, "/")}
+          className="flex items-center gap-3"
+          aria-label={lang === "en" ? "Okhuysen Dev — Home" : "Okhuysen Dev — Inicio"}
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
+          <Logo className="h-9 w-9 text-fg" />
+          <span className="text-sm font-medium tracking-tight">Okhuysen</span>
+        </Link>
 
-        {/* Mobile menu items */}
-        <div className="pt-16 px-6 flex flex-col h-full">
-          <ul className="space-y-6 flex-1">
-            {routes.map((route) => (
-              <li key={route.path}>
-                <Link
-                  href={Lang ? `/en${route.path}` : route.path}
-                  className={`block text-lg ${getLinkClasses(route.path)}`}
-                  onClick={closeMenu}
-                >
-                  {route.label}
-                </Link>
-              </li>
-            ))}
-            <li className="pt-4 border-t border-gray-700">
+        <ul className="hidden items-center gap-8 md:flex">
+          {c.routes.map((route) => (
+            <li key={route.path}>
               <Link
-                href={toggleLangPath}
-                className="block text-lg hover:text-orange-500 transition-colors duration-300 text-white"
-                onClick={closeMenu}
+                href={localePath(lang, route.path)}
+                aria-current={isActive(route.path) ? "page" : undefined}
+                className={`group relative py-2 text-sm transition-colors duration-200 hover:text-fg ${
+                  isActive(route.path) ? "text-fg" : "text-muted"
+                }`}
               >
-                {Lang ? "Change Language" : "Cambiar Idioma"}
+                {route.label}
+                <span
+                  className={`absolute inset-x-0 bottom-0.5 h-px origin-left bg-accent transition-transform duration-500 ease-out-expo ${
+                    isActive(route.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  }`}
+                />
               </Link>
             </li>
-          </ul>
+          ))}
+        </ul>
 
-          {/* Footer con marca */}
-          <div className="pb-8 mt-auto">
-            <div className="border-t border-gray-700 pt-6">
-              <div className="flex flex-col items-start space-y-3">
-                <div className="flex items-center gap-2">
-                  <p className="text-sm">{year}</p>
-                  <h3 className="text-white font-light text-sm">
-                    OKHUYSEN DEV
-                  </h3>
-                </div>
-
-                <p className="text-gray-400 text-sm">
-                  {Lang ? "Full Stack Development" : "Desarrollo Full Stack"}
-                </p>
-              </div>
-            </div>
-          </div>
+        <div className="hidden items-center gap-5 md:flex">
+          <Link
+            href={switchHref}
+            hrefLang={lang === "en" ? "es" : "en"}
+            className="font-mono text-xs uppercase text-muted transition-colors hover:text-fg"
+            aria-label={c.switchLabel}
+          >
+            <span className={lang === "es" ? "text-fg" : ""}>ES</span>
+            <span className="mx-1 text-subtle">/</span>
+            <span className={lang === "en" ? "text-fg" : ""}>EN</span>
+          </Link>
+          <Link
+            href={localePath(lang, "/contact")}
+            className="group inline-flex items-center gap-1.5 rounded-full bg-fg px-4 py-2 text-sm font-medium text-bg transition-colors hover:bg-accent-fill hover:text-white"
+          >
+            {c.cta}
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </Link>
         </div>
-      </div>
-    </nav>
+
+        <button
+          ref={triggerRef}
+          type="button"
+          onClick={openMenu}
+          className="-mr-2 inline-flex h-11 items-center gap-3 rounded-full border border-line-strong bg-surface/60 pl-4 pr-3.5 text-sm backdrop-blur transition-colors active:bg-surface-2 md:hidden"
+          aria-label={c.menuLabel}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          aria-haspopup="dialog"
+        >
+          {c.menu}
+          <span aria-hidden="true" className="flex w-4 flex-col gap-[5px]">
+            <span className="h-px w-4 bg-fg" />
+            <span className="h-px w-2.5 self-end bg-fg" />
+          </span>
+        </button>
+      </nav>
+
+      <MobileMenu
+        open={open}
+        onClose={closeMenu}
+        lang={lang}
+        cleanPath={cleanPath}
+        origin={origin}
+      />
+    </m.header>
   );
 }
 

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const contactSchema = z.object({
+  name: z.string().trim().max(120).optional(),
   email: z.string().trim().email().max(254),
   message: z.string().trim().min(1).max(5000),
   lang: z.enum(["es", "en"]).optional(),
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { email, message, lang, company, turnstileToken } = parsed.data;
+    const { name, email, message, lang, company, turnstileToken } = parsed.data;
 
     // Honeypot activado: respondemos éxito silenciosamente, sin enviar correo.
     if (company) {
@@ -100,6 +101,7 @@ export async function POST(req: NextRequest) {
     const isEnglish = lang === "en";
     const safeEmail = escapeHtml(email);
     const safeMessage = escapeHtml(message);
+    const safeName = name ? escapeHtml(name) : "";
 
     const data = await resend.emails.send({
       from: isEnglish
@@ -119,6 +121,11 @@ export async function POST(req: NextRequest) {
                 : "Nuevo mensaje recibido desde tu sitio web"
             }
           </h2>
+          ${
+            safeName
+              ? `<p><strong>${isEnglish ? "Name:" : "Nombre:"}</strong> ${safeName}</p>`
+              : ""
+          }
           <p>
             <strong>${isEnglish ? "Visitor email:" : "Correo del visitante:"}</strong>
             <a href="mailto:${safeEmail}" style="color: #0070f3; text-decoration: none;">${safeEmail}</a>
